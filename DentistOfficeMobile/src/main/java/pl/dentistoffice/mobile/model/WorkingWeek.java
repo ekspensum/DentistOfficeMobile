@@ -11,9 +11,6 @@ import java.time.LocalTime;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-
 public class WorkingWeek implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -22,7 +19,7 @@ public class WorkingWeek implements Serializable {
 	
 	byte [] workingWeekMapByte;
 	
-	private Map<DayOfWeek, Map<LocalTime, Boolean>> workingWeekMap;
+//	private Map<DayOfWeek, Map<LocalTime, Boolean>> workingWeekMap;
 	
 	private User userLogged;
 
@@ -43,8 +40,6 @@ public class WorkingWeek implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-//	@JsonSerialize(using = LocalTimeSerializer.class)
-//	@JsonSerialize(keyUsing = WorkingMapSerialize.class)
 	public Map<DayOfWeek, Map<LocalTime, Boolean>> getWorkingWeekMap() {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(this.workingWeekMapByte);
 		Map<DayOfWeek, Map<LocalTime, Boolean>> workingWeekMap = null;
