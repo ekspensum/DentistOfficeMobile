@@ -3,6 +3,7 @@ package pl.dentistoffice.mobile.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,10 @@ public class PatientController {
 	@Autowired
 	private UserSrvice userSrvice;
 	
+
+	@Autowired
+	private Environment env;
+	
 	@GetMapping(path = "/login")
 	public String login() {
 		return "login";
@@ -39,6 +44,7 @@ public class PatientController {
 				Patient patient = responseEntityPatient.getBody();
 				httpSession.setAttribute("token", token);
 				httpSession.setAttribute("patient", patient);
+				httpSession.setMaxInactiveInterval(Integer.valueOf(env.getProperty("sessionTimeOut")));
 							
 				System.out.println(patient.getLastName());
 				
