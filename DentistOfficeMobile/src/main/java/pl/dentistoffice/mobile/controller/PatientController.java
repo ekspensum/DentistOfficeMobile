@@ -4,7 +4,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,7 @@ import pl.dentistoffice.mobile.model.Patient;
 import pl.dentistoffice.mobile.service.UserSrvice;
 
 @Controller
-@SessionAttributes(names = {"token", "patient"})
+@SessionAttributes(names = {"patient"})
 public class PatientController {
 	
 	@Autowired
@@ -37,16 +36,12 @@ public class PatientController {
 		
 		try {
 			ResponseEntity<Patient> responseEntityPatient = userSrvice.getLoggedPatient(username, password);
-			HttpHeaders headers = responseEntityPatient.getHeaders();
-			
 			if(responseEntityPatient.getStatusCodeValue() == 200) {
-				String token = headers.get("token").get(0);
 				Patient patient = responseEntityPatient.getBody();
-				httpSession.setAttribute("token", token);
 				httpSession.setAttribute("patient", patient);
 				httpSession.setMaxInactiveInterval(Integer.valueOf(env.getProperty("sessionTimeOut")));
 							
-				System.out.println(patient.getLastName());
+				System.out.println("Patient "+patient.getLastName()+" token: "+patient.getToken());
 				
 			} 
 		} catch (HttpClientErrorException e) {

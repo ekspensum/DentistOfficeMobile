@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.client.HttpClientErrorException;
 
+import pl.dentistoffice.mobile.model.Patient;
 import pl.dentistoffice.mobile.model.VisitStatus;
 import pl.dentistoffice.mobile.service.VisitService;
 
 @Controller
-@SessionAttributes(names = {"token", "patient"})
+@SessionAttributes(names = {"patient"})
 public class VisitController {
 	
 	@Autowired
@@ -26,15 +27,20 @@ public class VisitController {
 	}
 
 	@PostMapping(path = "/visitStatus")
-	public String getVisitStatus(@SessionAttribute(name = "token", required = false) String token, @RequestParam(name = "id") String statusId) {
+	public String getVisitStatus(@SessionAttribute(name = "patient", required = false) Patient patient, @RequestParam(name = "id") String statusId) {
 		
 		try {
-			ResponseEntity<VisitStatus> responseEntity = visitService.getVisitStatus(token, statusId);
-
-			if(responseEntity.getStatusCodeValue() == 200) {
+			if(patient != null) {
+				ResponseEntity<VisitStatus> responseEntity = visitService.getVisitStatus(patient.getToken(), statusId);
 				
-				System.out.println("VisitControler - status "+responseEntity.getBody().getDescription());
-				
+				if(responseEntity.getStatusCodeValue() == 200) {
+					
+					System.out.println("VisitControler - status "+responseEntity.getBody().getDescription());					
+				} else {
+					System.out.println("VisitController - doctors, response: "+responseEntity.getStatusCode());
+				}	
+			} else {
+				System.out.println("VisitController - lack session (not logged)");
 			}
 		} catch (HttpClientErrorException e) {
 			if(e.getRawStatusCode() == 403) {

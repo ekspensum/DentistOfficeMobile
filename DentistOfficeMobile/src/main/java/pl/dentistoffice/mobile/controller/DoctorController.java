@@ -10,24 +10,32 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.client.HttpClientErrorException;
 
 import pl.dentistoffice.mobile.model.DoctorListWrapper;
+import pl.dentistoffice.mobile.model.Patient;
 import pl.dentistoffice.mobile.service.UserSrvice;
 
 @Controller
-@SessionAttributes(names = {"token", "patient"})
+@SessionAttributes(names = {"patient"})
 public class DoctorController {
 
 	@Autowired
 	private UserSrvice userSrvice;
 	
 	@GetMapping(path = "/doctors")
-	public String getDoctors(@SessionAttribute(name = "token", required = false) String token, Model model) {
+	public String getDoctors(@SessionAttribute(name = "patient", required = false) Patient patient, Model model) {
 
 		try {
-			ResponseEntity<DoctorListWrapper> responseEntity = userSrvice.getDoctors(token);
-			if(responseEntity.getStatusCodeValue() == 200) {
-				
-				System.out.println(responseEntity.getBody().getDoctorList().get(2).getWorkingWeek().getWorkingWeekMapByte().length);
+			if(patient != null) {
+				ResponseEntity<DoctorListWrapper> responseEntity = userSrvice.getDoctors(patient.getToken());
+				if(responseEntity.getStatusCodeValue() == 200) {
+					
+					System.out.println(responseEntity.getBody().getDoctorList().get(0).getWorkingWeek().getWorkingWeekMapByte().length);
+				} else {
+					System.out.println("DoctorController - doctors, response: "+responseEntity.getStatusCode());
+				}
+			} else {
+				System.out.println("DoctorController - lack session (not logged)");
 			}
+			
 		} catch (HttpClientErrorException e) {
 			if(e.getRawStatusCode() == 403) {
 				System.out.println(e.getMessage());
