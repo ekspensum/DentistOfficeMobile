@@ -3,6 +3,7 @@ package pl.dentistoffice.mobile.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +28,9 @@ public class VisitController {
 	}
 
 	@PostMapping(path = "/visitStatus")
-	public String getVisitStatus(@SessionAttribute(name = "patient", required = false) Patient patient, @RequestParam(name = "id") String statusId) {
+	public String getVisitStatus(@SessionAttribute(name = "patient", required = false) Patient patient, 
+								@RequestParam(name = "id") String statusId, 
+								Model model) {
 		
 		try {
 			if(patient != null) {

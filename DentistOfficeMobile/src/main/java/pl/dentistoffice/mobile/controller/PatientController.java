@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +23,6 @@ public class PatientController {
 	@Autowired
 	private UserSrvice userSrvice;
 	
-
 	@Autowired
 	private Environment env;
 	
@@ -32,15 +32,15 @@ public class PatientController {
 	}
 	
 	@PostMapping(path = "/login")
-	public String login(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password, HttpSession httpSession) {
+	public String login(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password, HttpSession httpSession, Model model) {
 		
 		try {
 			ResponseEntity<Patient> responseEntityPatient = userSrvice.getLoggedPatient(username, password);
 			if(responseEntityPatient.getStatusCodeValue() == 200) {
 				Patient patient = responseEntityPatient.getBody();
-				httpSession.setAttribute("patient", patient);
+				model.addAttribute("patient", patient);
 				httpSession.setMaxInactiveInterval(Integer.valueOf(env.getProperty("sessionTimeOut")));
-							
+
 				System.out.println("Patient "+patient.getLastName()+" token: "+patient.getToken());
 				
 			} 

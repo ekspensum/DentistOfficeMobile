@@ -28,7 +28,7 @@ public class DoctorController {
 				ResponseEntity<DoctorListWrapper> responseEntity = userSrvice.getDoctors(patient.getToken());
 				if(responseEntity.getStatusCodeValue() == 200) {
 					
-					System.out.println(responseEntity.getBody().getDoctorList().get(0).getWorkingWeek().getWorkingWeekMapByte().length);
+					System.out.println("Answer "+responseEntity.getBody().getDoctorList().get(0).getWorkingWeek().getWorkingWeekMapByte().length);
 				} else {
 					System.out.println("DoctorController - doctors, response: "+responseEntity.getStatusCode());
 				}
