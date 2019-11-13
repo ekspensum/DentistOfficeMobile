@@ -33,6 +33,43 @@ table.search tr:hover {
     background-color: #ade2af;
 }
 
+#clock {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#login {
+    position: absolute;
+    right: 30px;
+    top: 10px;
+    width: 140px;
+    height: 40px;
+    background-color: beige;
+}
+
+#login:hover {
+    background-color: lightsteelblue;
+}
+
+#logout {
+    position: absolute;
+    right: 30px;
+    top: 10px;
+    width: 140px;
+    height: 40px;
+    background-color: beige;
+}
+
+#logout:hover {
+    background-color: lightcoral;
+}
+
+#logged {
+	position: absolute;
+    right: 30px;
+    top: 80px;
+}
+
 #header {
     left: 0%;
     width: 100%;
@@ -43,16 +80,6 @@ table.search tr:hover {
     float: left;
     text-align: left;
     border-bottom: 2px solid beige;
-}
-
-#footer {
-    left: 0%;
-    width: 100%;
-    top: 94%;
-    height: 6%;
-    position: fixed;
-    border-top: 2px solid beige;
-    text-align: center;
 }
 
 #menu {
@@ -66,8 +93,21 @@ table.search tr:hover {
     overflow: auto;
 }
 
-.menu {
+.navbar {
     padding-top: 7px;
+    
+}
+
+.navbutton {
+    font: bold 12px Arial;
+    width: 140px;
+    height: 40px;
+    border-radius: 12px;
+    background-color: #bbe7bd;
+}
+
+.navbutton:hover {
+    background-color: rgb(133, 155, 89);
 }
 
 #content {
@@ -81,18 +121,7 @@ table.search tr:hover {
     position: fixed;
 }
 
-#userMenu {
-    left: 80%;
-    width: 18%;
-    top: 24%;
-    height: 70%;
-    bottom: 6%;
-    overflow: auto;
-    padding-left: 2%;
-    position: fixed;
-}
-
-#userContent {
+#patientContent {
     left: 0%;
     width: 79%;
     top: 24%;
@@ -104,24 +133,18 @@ table.search tr:hover {
     position: fixed;
 }
 
-#clock {
-    font-size: 22px;
-    font-weight: bold;
+#patientMenu {
+    left: 80%;
+    width: 18%;
+    top: 24%;
+    height: 70%;
+    bottom: 6%;
+    overflow: auto;
+    padding-left: 2%;
+    position: fixed;
 }
 
-.menuButton {
-    font: bold 12px Arial;
-    width: 136px;
-    height: 30px;
-    border-radius: 12px;
-    background-color: #bbe7bd;
-}
-
-.menuButton:hover {
-    background-color: rgb(133, 155, 89);
-}
-
-.sideMenuButton {
+.sidemenuButton {
     font: bold 12px Arial;
     width: 170px;
     height: 30px;
@@ -129,149 +152,134 @@ table.search tr:hover {
     background-color: #bbe7bd;
 }
 
-.sideMenuButton:hover {
+.sidemenuButton:hover {
     background-color: rgb(133, 155, 89);
 }
 
-.navigateButton {
-    font: bold 12px Arial;
-    height: 28px;
-    width: 160px;
+#footer {
+    left: 0%;
+    width: 100%;
+    top: 94%;
+    height: 6%;
+    position: fixed;
+    border-top: 2px solid beige;
+    text-align: center;
 }
 
-.navigateButton:hover {
-    background-color: rgb(133, 155, 89);
-}
+/* input[type=file] { */
+/* 	display: none; */
+/* } */
 
-#login {
-    position: absolute;
-    right: 30px;
-    top: 10px;
-    width: 100px;
-    height: 26px;
-    background-color: beige;
-}
-
-#login:hover {
-    background-color: lightsteelblue;
-}
-
-#logout {
-    position: absolute;
-    right: 30px;
-    top: 10px;
-    width: 100px;
-    height: 26px;
-    background-color: beige;
-}
-
-#logout:hover {
-    background-color: lightcoral;
-}
-
-#loggedUser {
-    position: absolute;
-    right: 200px;
-    top: 10px;
-}
-
-input[type=text],
-input[type=search],
-input[type=password],
-input[type=file],
-input[type=date],
-select {
-    background-color: #ade2af;
-}
-
-input[type=file],
-input[type=search],
-select {
-    height: 26px;
-}
-
-input[type=date] {
-    height: 20px;
-}
-
-select {
-    min-width: 200px;
-}
-
-textarea {
-    background-color: #ade2af;
-}
-
-.inputTime {
-    width: 40px;
-}
+/* .custom-file-upload { */
+/* 	height: 40px; */
+/* 	width: 140px; */
+/*     border: 1px solid #ccc; */
+/*     display: inline-block; */
+/*     padding: 6px 12px; */
+/*     cursor: pointer; */
+/*     width: 160px; */
+/* } */
 
 .textareaDescription {
     min-width: 400px;
     min-height: 200px;
 }
 
-table.workingTime {
-    border-collapse: collapse;
-    border-color: beige;
-    width: 70%;
-}
 
-table.workingTime th {
-    padding: 5px;
-    height: 35px;
-    text-align: left;
-    border-color: beige;
-}
 
-table.workingTime td {
-    padding: 5px;
-    width: 100px;
-    height: 35px;
-    text-align: center;
-    border-color: beige;
-}
+/* input[type=text], */
+/* input[type=search], */
+/* input[type=password], */
+/* input[type=file], */
+/* input[type=date], */
+/* select { */
+/*     background-color: #ade2af; */
+/* } */
 
-.workingTime input[type="checkbox"]:checked {
-    box-shadow: 0 0 0 5px blue;
-}
+/* input[type=file], */
+/* input[type=search], */
+/* select { */
+/*     height: 26px; */
+/* } */
 
-input[type="checkbox"]:checked {
-    box-shadow: 0 0 0 5px green;
-}
+/* input[type=date] { */
+/*     height: 20px; */
+/* } */
 
-textarea.homePageDoctorsDescription {
-    height: 300px;
-    width: 98%;
-    font-size: 120%;
-    font-style: italic;
-    resize: none;
-    border: none;
-    background-color: rgb(132, 148, 131);
-}
+/* select { */
+/*     min-width: 200px; */
+/* } */
 
-td.homePageDoctorsDescription {
-    height: 320px;
-}
+/* textarea { */
+/*     background-color: #ade2af; */
+/* } */
 
-td.homePageDoctorsName {
-    font-size: 150%;
-    font-weight: bold;
-    width: 320px;
-}
+/* .inputTime { */
+/*     width: 40px; */
+/* } */
 
-td.homePageDoctorsPhoto {
-    width: 320px;
-}
 
-table.homePageDoctors {
-    width: 70%;
-    border-collapse: collapse;
-}
+/* table.workingTime { */
+/*     border-collapse: collapse; */
+/*     border-color: beige; */
+/*     width: 70%; */
+/* } */
 
-tr.homePageDoctors {
-    background-color: rgb(132, 148, 131);
-}
+/* table.workingTime th { */
+/*     padding: 5px; */
+/*     height: 35px; */
+/*     text-align: left; */
+/*     border-color: beige; */
+/* } */
+
+/* table.workingTime td { */
+/*     padding: 5px; */
+/*     width: 100px; */
+/*     height: 35px; */
+/*     text-align: center; */
+/*     border-color: beige; */
+/* } */
+
+/* .workingTime input[type="checkbox"]:checked { */
+/*     box-shadow: 0 0 0 5px blue; */
+/* } */
+
+/* input[type="checkbox"]:checked { */
+/*     box-shadow: 0 0 0 5px green; */
+/* } */
+
+/* textarea.homePageDoctorsDescription { */
+/*     height: 300px; */
+/*     width: 98%; */
+/*     font-size: 120%; */
+/*     font-style: italic; */
+/*     resize: none; */
+/*     border: none; */
+/*     background-color: rgb(132, 148, 131); */
+/* } */
+
+/* td.homePageDoctorsDescription { */
+/*     height: 320px; */
+/* } */
+
+/* td.homePageDoctorsName { */
+/*     font-size: 150%; */
+/*     font-weight: bold; */
+/*     width: 320px; */
+/* } */
+
+/* td.homePageDoctorsPhoto { */
+/*     width: 320px; */
+/* } */
+
+/* table.homePageDoctors { */
+/*     width: 70%; */
+/*     border-collapse: collapse; */
+/* } */
+
+/* tr.homePageDoctors { */
+/*     background-color: rgb(132, 148, 131); */
+/* } */
 
 textarea.homePageTreatmentDescription {
     height: 100px;

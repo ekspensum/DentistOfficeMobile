@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.client.HttpClientErrorException;
 
-import pl.dentistoffice.mobile.model.Patient;
 import pl.dentistoffice.mobile.model.VisitStatus;
 import pl.dentistoffice.mobile.service.VisitService;
 
 @Controller
-@SessionAttributes(names = {"patient"})
+@SessionAttributes(names = {"patient", "token"})
 public class VisitController {
 	
 	@Autowired
@@ -28,13 +27,13 @@ public class VisitController {
 	}
 
 	@PostMapping(path = "/visitStatus")
-	public String getVisitStatus(@SessionAttribute(name = "patient", required = false) Patient patient, 
+	public String getVisitStatus(@SessionAttribute(name = "token", required = false) String token, 
 								@RequestParam(name = "id") String statusId, 
 								Model model) {
 		
 		try {
-			if(patient != null) {
-				ResponseEntity<VisitStatus> responseEntity = visitService.getVisitStatus(patient.getToken(), statusId);
+			if(token != null && !token.equals("")) {
+				ResponseEntity<VisitStatus> responseEntity = visitService.getVisitStatus(token, statusId);
 				
 				if(responseEntity.getStatusCodeValue() == 200) {
 					

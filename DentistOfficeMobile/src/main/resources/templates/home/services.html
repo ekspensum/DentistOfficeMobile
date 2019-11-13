@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+  		layout:decorate="~{layout}">
+<head>
+	<title>Services</title>
+</head>
+<body>
+<section layout:fragment="content">
+
+	<h3 th:text="#{home.header.services}"></h3>
+	
+	<form name="servicesForm" method="POST" th:action="@{/services}">
+		<select name="categoryId">
+				<option th:each="category : ${treatmentCategoriesList}" 
+						th:value="${category.id }" 
+						th:text="${category.categoryName }" 
+						th:selected="${category.id == 1}">
+				</option>
+		</select>
+		<input type="submit" value="Wyszukaj zabiegi" class="navigateButton" />
+	</form>
+	<div th:if="${selectedTreatmentCategory != null}">
+		<h4 th:text="${selectedTreatmentCategory.categoryName}"></h4>
+		<table class="search">
+			<thead>
+				<tr><th>Lp.</th><th>Nazwa zabiegu</th><th>Cena</th><th>Opis zabiegu</th></tr>
+			</thead>
+			<tbody>
+				<tr th:each="treatment,iter : ${selectedTreatmentCategory.getDentalTreatment()}" th:class="${iter.odd}? 'odd'">
+					<td th:text="${iter.count}"></td>
+					<td th:text="${treatment.name}"></td>
+					<td th:text="${'od '+treatment.price}"></td>
+					<td style="width: 70%;">
+						<textarea readonly="readonly" th:text="${treatment.description}" class="homePageTreatmentDescription"></textarea>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<br>
+
+</section>
+
+
+<p layout:fragment="custom-footer">This is some footer content from Doctors page</p>
+</body>
+</html>

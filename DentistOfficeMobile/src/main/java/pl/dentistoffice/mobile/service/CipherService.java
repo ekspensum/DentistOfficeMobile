@@ -48,34 +48,34 @@ public class CipherService {
 		return null;
 	}
 
-//	public String decodeToken(String encodeTokenBase64) {
-//
-//		byte[] encodeTokenByte = null;
-//
-//		if (encodeTokenBase64 != null && !encodeTokenBase64.equals("")) {
-//			encodeTokenByte = Base64.getDecoder().decode(encodeTokenBase64);
-//			try {
-//				Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-//				byte[] byteKey = encryptionKey.getBytes("UTF-8");
-//				byteKey = Arrays.copyOf(byteKey, 16);
-//				Key secretKey = new SecretKeySpec(byteKey, "AES");
-//				cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(new byte[16]));
-//				byte[] decodeTokenByte = cipher.doFinal(encodeTokenByte);
-//				return new String(decodeTokenByte);
-//			} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-//				e.printStackTrace();
-//			} catch (InvalidKeyException e) {
-//				e.printStackTrace();
-//			} catch (IllegalBlockSizeException e) {
-//				e.printStackTrace();
-//			} catch (BadPaddingException e) {
-//				e.printStackTrace();
-//			} catch (InvalidAlgorithmParameterException e) {
-//				e.printStackTrace();
-//			} catch (UnsupportedEncodingException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return null;
-//	}
+	public String decodeToken(String encodeTokenBase64) {
+
+		byte[] encodeTokenByte = null;
+
+		if (encodeTokenBase64 != null && !encodeTokenBase64.equals("")) {
+			encodeTokenByte = Base64.getDecoder().decode(encodeTokenBase64);
+			try {
+				Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+				byte[] byteKey = encryptionKey.getBytes("UTF-8");
+				byteKey = Arrays.copyOf(byteKey, 16);
+				Key secretKey = new SecretKeySpec(byteKey, "AES");
+				cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(new byte[16]));
+				byte[] decodeTokenByte = cipher.doFinal(encodeTokenByte);
+				return new String(decodeTokenByte);
+			} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+				e.printStackTrace();
+			} catch (InvalidKeyException e) {
+				e.printStackTrace();
+			} catch (IllegalBlockSizeException e) {
+				e.printStackTrace();
+			} catch (BadPaddingException e) {
+				e.printStackTrace();
+			} catch (InvalidAlgorithmParameterException e) {
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 }

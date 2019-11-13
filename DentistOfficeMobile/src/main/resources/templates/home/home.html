@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+  		layout:decorate="~{layout}">
+<head>
+  <title>Dentist Office Mobile</title>
+</head>
+<body>
+  <section layout:fragment="content">
+    <h4 th:text="#{home.header.home}"></h4>
+	<table>
+		<tr><td>Opis ogólny ....</td></tr>
+		<tr><td style="width: 650px; height: 490px;"><div id="slider"></div></td></tr>
+		<tr><td>Opis bardziej szczegółowy ....</td></tr>
+	</table>
+	<br>
+
+
+  </section>
+
+ 
+<div layout:fragment="custom-footer">This is some footer content from Home page</div>
+
+</body>
+</html>

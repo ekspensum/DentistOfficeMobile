@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+  		layout:decorate="~{layout}">
+<head>
+	<title>Login page</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+<h3>Strona logowania</h3>
+	<form name="loginForm" th:action="@{/patient/login}" method="POST">
+		<table>
+			<tr>
+				<td>Użytkownik:</td>
+				<td><input name="username" type="text" /></td>
+			</tr>
+			<tr>
+				<td>Hasło:</td>
+				<td><input name="password" type="password" /></td>
+			</tr>
+			<tr>
+				<td></td><td align="right"><input type="submit" value="Zaloguj" 
+								onclick="return validateLoginForm()" 
+								class="navigateButton" style="width: 100px;" /></td>
+			</tr>
+		</table>
+	</form>
+</section>
+
+<p layout:fragment="custom-footer">This is some footer content from Login page</p>
+
+</body>
+</html>

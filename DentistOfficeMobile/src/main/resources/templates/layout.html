@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"	
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Layout page</title>
+  <meta charset="UTF-8">
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+  <script type="text/javascript" th:src="@{/js/main.js}" /></script>
+  <script src="https://www.google.com/recaptcha/api.js?hl=pl"></script>
+  <link th:href="@{/css/style.css}" style="text/css" rel="stylesheet" media="all" />
+</head>
+
+<body th:onload="'dateTime(\''+#{home.currentDateTime}+'\'); changeSlide();'">
+  <header id="header">
+  	<a th:href="@{/patient/login}"><button th:text="#{button.login}" th:if="${session.patient == null && session.token == null}" id="login"></button></a>
+  	<a th:href="@{/patient/logout}"><button th:text="#{button.logout}" th:if="${session.patient != null && session.token != null}" id="logout"></button></a>
+    <h1 th:text="#{home.welcome}"></h1>
+		<div id="clock"></div>
+		<div id="logged">
+			<span th:text="#{patient.logged}" th:unless="${patient == null}"></span>
+			<b th:text="${patient.firstName+' '+patient.lastName}" th:unless="${patient == null}"></b>
+		</div>
+  </header>
+	<div layout:fragment="menu" id="menu" class="navbar">
+		<a th:href="@{/}"><button th:text="#{button.home}" class="navbutton"></button></a> 
+		<a th:href="@{/doctors}"><button th:text="#{button.doctors}" class="navbutton"></button></a>
+		<a th:href="@{/services}"><button th:text="#{button.treatments}" class="navbutton"></button></a>
+		<a th:href="@{/agenda}"><button th:text="#{button.agenda}" class="navbutton"></button></a>
+		<a th:href="@{/contactus}"><button th:text="#{button.contactus}" class="navbutton"></button></a>
+		<a th:href="@{/patient/patient}"><button th:text="#{button.patient}" class="navbutton"></button></a>
+	</div>
+	<section id="content" layout:fragment="content">
+		<p>Page content goes here</p>
+  </section>
+  <footer id="footer">
+    <p th:text="#{home.footer}"></p>
+    <p layout:fragment="custom-footer">Custom footer here</p>
+  </footer>  
+</body>
+</html>

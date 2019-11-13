@@ -28,6 +28,7 @@ public class Patient implements Serializable {
 	
 	private int id;
 	
+	@JsonIgnore
 	private String token;
 	
 	@Size(min = 3, max = 15)

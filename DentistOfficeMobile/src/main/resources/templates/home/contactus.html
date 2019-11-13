@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+  		layout:decorate="~{layout}">
+<head>
+	<title>Contact Us page</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+
+<h3 th:text="#{home.header.contactUs}"></h3>
+<form method="POST" action="#" th:action="@{/contactus}" th:object="${contactUs}" id="contactForm" enctype="multipart/form-data" >
+	<table>
+		<tr>
+			<td><input type="text" th:field="${contactUs.subject}" id="subject" th:placeholder="#{placeholder.contactus.subject}" style="width:250px" /></td>
+			<td><span th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></span></td>
+		</tr>
+		<tr>
+			<td><textarea id="message" th:field="${contactUs.message}" class="textareaDescription" th:placeholder="#{placeholder.contactus.message}"></textarea></td>
+			<td><span th:if="${#fields.hasErrors('message')}" th:errors="*{message}"></span></td>
+		</tr>
+		<tr>
+			<td><input type="text" th:field="${contactUs.replyMail}" id="replyMail" th:placeholder="#{placeholder.contactus.replyMail }" style="width:250px" /></td>
+			<td><span th:if="${#fields.hasErrors('replyMail')}" th:errors="*{replyMail}"></span></td>
+		</tr>
+		<tr>
+			<td><input type="file" name="attachment" class="custom-file-upload" /></td>
+			<td><span th:if="${#fields.hasErrors('attachment')}" th:errors="*{attachment}"></span></td>
+		</tr>
+		<tr>
+			<td><span class="g-recaptcha" data-sitekey="6Lfv-cEUAAAAAMONPFHQpoR5kjvzQCVySQDnIZzy"></span></td>
+			<td class="msgError" th:text="#{reCaptchaError }" th:unless="${reCaptchaError == null}"></td>
+		</tr>
+		<tr>
+			<td><input type="submit" th:value="#{button.sendEmail}" class="navbutton" /></td>
+		</tr>
+	</table>
+</form>
+	<div th:if="${alert == 'YES'}">
+		<script>
+			sentEmailConfirm();
+		</script>
+	</div>
+	<div th:if="${alert == 'NO' }">
+		<script>alert("Nie udało się wysłać listu!");</script>
+	</div>
+
+</section>
+
+
+<p layout:fragment="custom-footer">This is some footer content from Contact Us page</p>
+
+</body>
+</html>

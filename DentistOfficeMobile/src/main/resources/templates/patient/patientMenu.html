@@ -1,0 +1,9 @@
+<div xmlns:th="http://www.thymeleaf.org">
+
+<h4>Menu Pacjenta</h4>
+	<div th:if="${session.patient != null && session.token != null}">
+		<a th:href="@{/aaa}"><button th:text="#{button.newVisit}" class="navbutton"></button></a> 
+		
+	</div>
+
+</div>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+  		layout:decorate="~{layout}">
+<head>
+  <title>Exception page</title>
+</head>
+<body>
+  <section layout:fragment="content" id="content">
+ 	<h3 th:text="#{exception}"></h3>
+ 	<p th:text="#{${exception}}" th:unless="${exception == null || exception == ''}"></p> 
+  </section>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+  		layout:decorate="~{layout}">
+<head>
+  <title>Dentist Office Mobile</title>
+</head>
+<body>
+  <section layout:fragment="content">
+    <h3 th:text="#{home.header.agenda.freeTerm}"></h3>
+	 <h4 th:text="#{home.header.agenda.selectDoctor}"></h4>
+
+	<form id="homePageAgendaSelectDoctor">
+		<table>
+			<tr th:each="doctor : ${allDoctors }" style="display: inline-block;">
+				<td>
+					<table class="homePageAgenda">
+						<tr class="">
+							<td align="center" th:text="${doctor.firstName + '  ' + doctor.lastName}" ></td>
+						</tr>
+						<tr class="">
+							<td align="center" rowspan="2" >
+								<button type="submit" form="homePageAgendaSelectDoctor" formmethod="POST" formaction="/agenda" name="doctorId" th:value="${doctor.id }" class="homePageAgenda">
+									<img th:src="@{'data:image;base64,'+${doctor.base64Photo }}" class="homePageAgenda" />
+								</button>
+							</td>
+						</tr>
+						<tr><td><br></td></tr>
+					</table>
+				</td>
+				<td width="20px"><br></td>
+				</tr>
+		</table>
+	
+		<div th:if="${workingWeekFreeTimeMap != null }">
+			<p><span th:text="#{home.header.agenda.selectedDoctor }" ></span><b  th:text="${doctor.firstName + '  ' + doctor.lastName}"></b></p>
+			<button type="submit" name="weekResultDriver" formmethod="POST" formaction="/agenda" value="stepLeft"
+			 																								th:disabled="${disableLeftArrow == 'YES'}" class="navigateButton"
+			 																								th:text="#{button.agenda.previous7days}" ></button>
+			<button type="submit" name="weekResultDriver" formmethod="POST" formaction="/agenda" value="stepRight" 
+																											th:disabled="${disableRightArrow == 'YES' }" class="navigateButton" 
+																											th:text="#{button.agenda.next7days}"></button>
+			<br><br>
+			
+			<table border="1" class="workingTime">			
+					<tr th:each="map, iter : ${workingWeekFreeTimeMap}"  th:class="${iter.odd}? 'odd'">
+						<th th:text="${map.key}"></th>
+						<td th:text="${dayOfWeekPolish[workingWeekFreeTimeMap.keySet().toArray()[iter.index].getDayOfWeek().getValue()] }"></td>
+							<td th:if="${workingWeekFreeTimeMap.values().toArray()[iter.index].toString().length() == 2 }" th:text="#{home.agenda.noFreeTerms}"></td>
+							<td th:if="${workingWeekFreeTimeMap.values().toArray()[iter.index].toString().length() > 2 }">
+								<table>
+									<tr th:each="time : ${map.value}">
+										<td th:text="${time.key}"></td>
+									</tr>
+								</table>				
+							</td>
+					</tr>			
+			</table>	
+		</div>
+	</form>
+	<br>		
+  </section>
+
+<div layout:fragment="custom-footer">This is some footer content from Home page</div>
+
+</body>
+</html>

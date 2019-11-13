@@ -2,7 +2,10 @@ package pl.dentistoffice.mobile.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+
+import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "pl.dentistoffice.mobile")
@@ -12,4 +15,11 @@ public class DentistOfficeMobileApplication {
 		SpringApplication.run(DentistOfficeMobileApplication.class, args);
 	}
 
+	//	for Thymeleaf
+	@Bean
+	public LayoutDialect layoutDialect() {
+	    return new LayoutDialect();
+	}
+
+	
 }

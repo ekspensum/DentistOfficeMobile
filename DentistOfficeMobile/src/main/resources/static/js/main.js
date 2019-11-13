@@ -9,9 +9,11 @@ function sentEmailConfirm() {
     document.getElementById("replyMail").value = "";
 }
 
-function dateTime() {
+function dateTime(text) {
     var today = new Date();
     var day = today.getDate();
+    if(day < 10)
+    	day = "0" + day;
     var month = today.getMonth() + 1;
     if (month < 10)
         month = "0" + month;
@@ -25,10 +27,12 @@ function dateTime() {
     var seconde = today.getSeconds();
     if (seconde < 10)
         seconde = "0" + seconde;
-    document.getElementById("clock").innerHTML = "Aktualna data i czas: " + day +
+    document.getElementById("clock").innerHTML = text+ " " + day +
         "/" + month + "/" + year + " " + " " + hours + ":" + minute + ":" +
         seconde;
-    setTimeout("dateTime()", 1000);
+    setTimeout(function() {
+    	dateTime(text);
+    	}, 1000);
 }
 
 function goBack() {
@@ -249,12 +253,11 @@ function changeSlide() {
     if (number == 7) {
         number = 1;
     }
-    let file = "<img src=\"static/images/slides/slide" + number + ".jpg\" />";
+    let file = "<img src=\"images/slides/slide" + number + ".jpg\" />";
     document.getElementById("slider").innerHTML = file;
     $("#slider").fadeIn(500);
     setTimeout("changeSlide();", 4000);
     setTimeout("collapse();", 3500);
-    console.log(number);
 }
 
 function checkCorrectPassword(){
@@ -267,17 +270,3 @@ function checkCorrectPassword(){
 		return false;
 	}
 }
-
-// function setEnableInputFromChbx(chbx_id) {
-//     if (document.getElementById(chbx_id).checked == true) {
-//         for (let i = 0; i < document.getElementsByName(chbx_id).length; i++)
-//             document.getElementsByName(chbx_id)[i].disabled = false;
-//         for (let i = 0; i < document.getElementsByName("chbx_" + chbx_id).length; i++)
-//             document.getElementsByName("chbx_" + chbx_id)[i].disabled = false;
-//     } else {
-//         for (let i = 0; i < document.getElementsByName(chbx_id).length; i++)
-//             document.getElementsByName(chbx_id)[i].disabled = true;
-//         for (let i = 0; i < document.getElementsByName("chbx_" + chbx_id).length; i++)
-//             document.getElementsByName("chbx_" + chbx_id)[i].disabled = true;
-//     }
-// }

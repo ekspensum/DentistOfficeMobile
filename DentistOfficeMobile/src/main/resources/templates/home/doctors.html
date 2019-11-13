@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+  		layout:decorate="~{layout}">
+<head>
+	<title>Doctors page</title>
+</head>
+<body>
+<section layout:fragment="content">
+	<h3 th:text="#{home.header.doctors}"></h3>
+        <table th:each="doctor: ${doctorList}">
+        	<tr>
+        		<td align="left" th:text="${doctor.id}"></td>
+        		<td align="left" th:text="${doctor.firstName}"></td>
+        		<td align="left" th:text="${doctor.lastName}"/>
+        	</tr>
+        	<tr>
+        		<td align="left" th:text="${doctor.description}"/>
+        	</tr>
+        	<tr>
+				<td align="left"><img th:src="@{'data:image;base64,'+${doctor.base64Photo }}" style="height: 300px; max-width: 300px;" /></td>
+			</tr>
+        </table>
+
+</section>
+
+
+<p layout:fragment="custom-footer">This is some footer content from Doctors page</p>
+</body>
+</html>
