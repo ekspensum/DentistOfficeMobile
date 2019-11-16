@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html 
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+  		layout:decorate="~{layout}">
 <head>
-	<meta charset="UTF-8">
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
-	<script type="text/javascript" src='<c:url value="/static/js/main.js" />'></script>
-	<link th:href="@{/css/style.css}" style="text/css" rel="stylesheet" media="all" />
-<!-- 	<link th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css}" rel="stylesheet" /> -->
+<title>Visit status</title>
 </head>
 <body onload="dateTime(); changeSlide();">
+
+<section layout:fragment="content" id="content">
 
 <h3>Visit Status</h3>
 <form name="loginForm" th:action="@{/visitStatus}" method="POST">
@@ -23,7 +22,8 @@
 		</tr>
 	</table>
 </form>
-<h3>${msg }</h3>
-<h3>${error }</h3>
+
+</section>
+
 </body>
 </html>

@@ -12,17 +12,18 @@
 	<h3 th:text="#{home.header.services}"></h3>
 	
 	<form name="servicesForm" method="POST" th:action="@{/services}">
-		<select name="categoryId">
+		<select th:name="categoryId">
 				<option th:each="category : ${treatmentCategoriesList}" 
 						th:value="${category.id }" 
 						th:text="${category.categoryName }" 
-						th:selected="${category.id == 1}">
+						th:selected="${#strings.toString(category.id) == paramCategoryId}">
 				</option>
 		</select>
-		<input type="submit" value="Wyszukaj zabiegi" class="navigateButton" />
+		<input type="submit" th:value="#{button.treatments.search}" class="navbutton" />
 	</form>
-	<div th:if="${selectedTreatmentCategory != null}">
-		<h4 th:text="${selectedTreatmentCategory.categoryName}"></h4>
+
+	<div th:if="${selectedTreatmentCategory != null && paramCategoryId != '1'}">
+		<h3 th:text="${selectedTreatmentCategory.categoryName}"></h3>
 		<table class="search">
 			<thead>
 				<tr><th>Lp.</th><th>Nazwa zabiegu</th><th>Cena</th><th>Opis zabiegu</th></tr>

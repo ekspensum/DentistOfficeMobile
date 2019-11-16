@@ -15,7 +15,7 @@ body {
 }
 
 table.search {
-    width: 70%;
+    width: 100%;
     border-collapse: collapse;
     background-color: rgb(132, 148, 131);
 }
@@ -206,13 +206,14 @@ table.search tr:hover {
 /*     height: 20px; */
 /* } */
 
-/* select { */
-/*     min-width: 200px; */
-/* } */
+select {
+    min-width: 250px;
+    min-height: 40px;
+}
 
-/* textarea { */
-/*     background-color: #ade2af; */
-/* } */
+textarea {
+    background-color: #ade2af;
+}
 
 /* .inputTime { */
 /*     width: 40px; */
@@ -248,38 +249,38 @@ table.search tr:hover {
 /*     box-shadow: 0 0 0 5px green; */
 /* } */
 
-/* textarea.homePageDoctorsDescription { */
-/*     height: 300px; */
-/*     width: 98%; */
-/*     font-size: 120%; */
-/*     font-style: italic; */
-/*     resize: none; */
-/*     border: none; */
-/*     background-color: rgb(132, 148, 131); */
-/* } */
+textarea.homePageDoctorsDescription {
+    height: 300px;
+    width: 98%;
+    font-size: 120%;
+    font-style: italic;
+    resize: none;
+    border: none;
+    background-color: rgb(132, 148, 131);
+}
 
-/* td.homePageDoctorsDescription { */
-/*     height: 320px; */
-/* } */
+td.homePageDoctorsDescription {
+    height: 320px;
+}
 
-/* td.homePageDoctorsName { */
-/*     font-size: 150%; */
-/*     font-weight: bold; */
-/*     width: 320px; */
-/* } */
+td.homePageDoctorsName {
+    font-size: 150%;
+    font-weight: bold;
+    width: 320px;
+}
 
-/* td.homePageDoctorsPhoto { */
-/*     width: 320px; */
-/* } */
+td.homePageDoctorsPhoto {
+    width: 320px;
+}
 
-/* table.homePageDoctors { */
-/*     width: 70%; */
-/*     border-collapse: collapse; */
-/* } */
+table.homePageDoctors {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-/* tr.homePageDoctors { */
-/*     background-color: rgb(132, 148, 131); */
-/* } */
+tr.homePageDoctors {
+    background-color: rgb(132, 148, 131);
+}
 
 textarea.homePageTreatmentDescription {
     height: 100px;

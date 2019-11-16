@@ -9,17 +9,16 @@
 <body>
 <section layout:fragment="content">
 	<h3 th:text="#{home.header.doctors}"></h3>
-        <table th:each="doctor: ${doctorList}">
+        <table th:each="doctor: ${doctorList}" class="homePageDoctors" >
         	<tr>
-        		<td align="left" th:text="${doctor.id}"></td>
-        		<td align="left" th:text="${doctor.firstName}"></td>
-        		<td align="left" th:text="${doctor.lastName}"/>
+        		<td align="center" class="homePageDoctorsName" th:text="${doctor.firstName + ' ' + doctor.lastName}"></td>
+        		<td align="center" rowspan="2"><textarea readonly="readonly" th:text="${doctor.description}" class="homePageDoctorsDescription"></textarea></td>
         	</tr>
         	<tr>
-        		<td align="left" th:text="${doctor.description}"/>
-        	</tr>
-        	<tr>
-				<td align="left"><img th:src="@{'data:image;base64,'+${doctor.base64Photo }}" style="height: 300px; max-width: 300px;" /></td>
+				<td align="center" class="homePageDoctorsPhoto">
+					<img th:src="@{'data:image;base64,'+${doctor.base64Photo }}" style="height: 300px; max-width: 300px;" />
+				</td>
+			<tr><td colspan="2"><br></td>
 			</tr>
         </table>
 

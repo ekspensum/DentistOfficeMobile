@@ -4,24 +4,16 @@
 		xmlns:th="http://www.thymeleaf.org"
   		layout:decorate="~{layout}">
 <head>
-  <title>Patient page</title>
+  <title>Defeat page</title>
 </head>
 <body>
-  <section layout:fragment="content" id="patientContent">
-    <h4 th:text="#{patient.header.body}"></h4>
-    
-    
-    
+  <section layout:fragment="content"  id="patientContent">
+ 	<h3 th:text="#{patient.defeat}"></h3>
+ 	<p th:text="#{${defeat}}" th:unless="${defeat == null}"></p> 
+ 	
+ 	
 	 <section th:insert="patient/patientMenu.html" id="patientMenu">	 	
-
 	 </section>
-	 
- 
- 
- 
   </section>
-  <footer>
-    <p layout:fragment="custom-footer">This is some footer content from Home page</p>
-  </footer>
 </body>
 </html>

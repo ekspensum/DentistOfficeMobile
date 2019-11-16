@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+  		layout:decorate="~{layout}">
+<head>
+  <title>Patient page</title>
+</head>
+<body>
+<section layout:fragment="content" id="patientContent">
+<h3 th:text="#{patient.header.edit}"></h3>
+	<form method="POST"	th:action="@{/patient/edit}" th:object="${patient}"	enctype="multipart/form-data">
+		<table>
+			<tbody>
+				<tr>
+					<td rowspan="16"><img th:src="@{'data:image;base64,'+${patient.base64Photo }}" width="250px" /></td>
+					<td th:text="#{patient.user.username}"></td>
+					<td><input type="text" th:field="${patient.user.username}"  readonly="readonly" /></td>
+					<td th:if="${#fields.hasErrors('user.username')}" th:errors="*{user.username}" class="msgError"></td>
+				</tr>
+				<tr>
+					<td th:text="#{patient.user.password}"></td>
+					<td><input th:field="${patient.user.passwordField}" id="password" type="password" /></td>
+					<td th:if="${#fields.hasErrors('user.passwordField')}" th:errors="*{user.passwordField}" class="msgError"></td>
+				</tr>
+				<tr>
+					<td th:text="#{patient.user.password.repet}"></td>
+					<td>
+						<input type="password" name="password2" id="password2" th:value="${param.password2 }">
+					</td>
+				</tr>
+				<tr>
+					<td th:text="#{patient.firstName}"></td>
+					<td><input type="text" th:field="*{firstName}" /></td>
+					<td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="msgError"></td>
+				</tr>
+				<tr>
+					<td th:text="#{patient.lastname}"></td>
+					<td><input type="text" th:field="*{lastName}" /></td>
+					<td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="msgError"></td>
+				</tr>
+				<tr>
+					<td th:text="#{patient.pesel}"></td>
+					<td><input type="text" th:field="*{pesel}" /></td>
+					<td th:if="${#fields.hasErrors('pesel')}" th:errors="*{pesel}" class="msgError"></td>
+				</tr>
+				<tr>
+					<td th:text="#{patient.country}"></td>
+					<td><input type="text" th:field="*{country}" /></td>
+					<td th:if="${#fields.hasErrors('country')}" th:errors="*{country}" class="msgError"></td>
+				</tr>
+				<tr>
+					<td th:text="#{patient.zipCode}"></td>
+					<td><input type="text" th:field="*{zipCode}"  /></td>
+					<td th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}" class="msgError"></td>
+				</tr>
+				<tr>
+					<td th:text="#{patient.city}"></td>
+					<td><input type="text" th:field="*{city}"  /></td>
+					<td th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="msgError"></td>
+				</tr>
+				<tr>
+					<td th:text="#{patient.street}"></td>
+					<td><input type="text" th:field="*{street}"  /></td>
+					<td th:if="${#fields.hasErrors('street')}" th:errors="*{street}" class="msgError"></td>
+				</tr>
+				<tr>
+					<td th:text="#{patient.streetNo}"></td>
+					<td><input type="text" th:field="*{streetNo}"  /></td>
+					<td th:if="${#fields.hasErrors('streetNo')}" th:errors="*{streetNo}" class="msgError"></td>
+				</tr>
+				<tr>
+					<td th:text="#{patient.unitNo}"></td>
+					<td><input type="text" th:field="*{unitNo}"  /></td>
+					<td th:if="${#fields.hasErrors('unitNo')}" th:errors="*{unitNo}" class="msgError"></td>
+				</tr>
+				<tr>
+					<td th:text="#{patient.email}"></td>
+					<td><input type="text" th:field="*{email}"  /></td>
+					<td th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="msgError"></td>
+				</tr>
+				<tr>
+					<td th:text="#{patient.phone}"></td>
+					<td><input type="text" th:field="*{phone}"  /></td>
+					<td th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="msgError"></td>
+				</tr>
+				<tr>
+					<td th:text="#{patient.photo}"></td>
+					<td><input type="file" name="photo" accept="image/*" th:field="*{photo}" /></td>
+					<td th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}" class="msgError"></td>
+				</tr>
+				<tr>
+					<td></td><td><input type="submit" th:value="#{button.patient.saveEdit}" onclick="return checkCorrectPassword()" class="navbutton" /></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	 <section th:insert="patient/patientMenu.html" id="patientMenu"></section>
+	  
+  </section>
+</body>
+</html>

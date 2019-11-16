@@ -28,7 +28,6 @@ public class User implements Serializable {
 	private boolean enabled;
 	
 	@Size(min = 4, max = 24)
-	@JsonIgnore
 	private String passwordField;
 	
 	private List<Role> roles;

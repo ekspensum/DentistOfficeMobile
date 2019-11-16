@@ -4,12 +4,12 @@
 		xmlns:th="http://www.thymeleaf.org"
   		layout:decorate="~{layout}">
 <head>
-	<title>Login page</title>
+	<title th:text="#{patient.header.logining}"></title>
 </head>
 <body>
 
 <section layout:fragment="content">
-<h3>Strona logowania</h3>
+<h3 th:text="#{patient.header.logining}"></h3>
 	<form name="loginForm" th:action="@{/patient/login}" method="POST">
 		<table>
 			<tr>
@@ -21,15 +21,15 @@
 				<td><input name="password" type="password" /></td>
 			</tr>
 			<tr>
-				<td></td><td align="right"><input type="submit" value="Zaloguj" 
+				<td><br></td>
+				<td align="right"><input type="submit" value="Zaloguj" 
 								onclick="return validateLoginForm()" 
-								class="navigateButton" style="width: 100px;" /></td>
+								class="navigateButton" style="width: 100px;" />
+				</td>
 			</tr>
 		</table>
 	</form>
 </section>
-
-<p layout:fragment="custom-footer">This is some footer content from Login page</p>
 
 </body>
 </html>

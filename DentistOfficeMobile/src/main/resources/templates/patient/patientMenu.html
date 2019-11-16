@@ -1,9 +1,13 @@
 <div xmlns:th="http://www.thymeleaf.org">
 
-<h4>Menu Pacjenta</h4>
+<h4 th:text="#{patient.header.menu}"></h4>
+
+	<p><a th:href="@{patient/register}"><button th:text="#{button.patient.register}" class="navbutton"></button></a></p>
 	<div th:if="${session.patient != null && session.token != null}">
-		<a th:href="@{/aaa}"><button th:text="#{button.newVisit}" class="navbutton"></button></a> 
+		<p><a th:href="@{/patient/newVisit}"><button th:text="#{button.patient.newVisit}" class="navbutton"></button></a></p>
 		
+		
+		<p><a th:href="@{/patient/edit}"><button th:text="#{button.patient.edit}" class="navbutton"></button></a></p> 
 	</div>
 
 </div>

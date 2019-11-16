@@ -23,37 +23,27 @@ public class VisitController {
 	
 	@GetMapping(path = "/visitStatus")
 	public String getVisitStatus() {
-		return "visitStatus";
+		return "/visit/visitStatus";
 	}
 
 	@PostMapping(path = "/visitStatus")
 	public String getVisitStatus(@SessionAttribute(name = "token", required = false) String token, 
-								@RequestParam(name = "id") String statusId, 
-								Model model) {
+												@RequestParam(name = "id") String statusId, 
+												Model model) {
 		
-		try {
 			if(token != null && !token.equals("")) {
 				ResponseEntity<VisitStatus> responseEntity = visitService.getVisitStatus(token, statusId);
 				
 				if(responseEntity.getStatusCodeValue() == 200) {
-					
 					System.out.println("VisitControler - status "+responseEntity.getBody().getDescription());					
+					throw new IllegalArgumentException();
 				} else {
 					System.out.println("VisitController - doctors, response: "+responseEntity.getStatusCode());
 				}	
 			} else {
 				System.out.println("VisitController - lack session (not logged)");
 			}
-		} catch (HttpClientErrorException e) {
-			if(e.getRawStatusCode() == 403) {
-				System.out.println(e.getMessage());
-			} else {
-				e.printStackTrace();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
-		return "visitStatus";
+		return "/visit/visitStatus";
 	}
 }

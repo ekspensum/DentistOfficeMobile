@@ -34,7 +34,7 @@ public class VisitService {
 	private CipherService cipherService;
 
 
-	public ResponseEntity<VisitStatus> getVisitStatus(String token, String statusId) throws HttpClientErrorException {
+	public ResponseEntity<VisitStatus> getVisitStatus(String token, String statusId) {
 
 		HttpHeaders requestHeaders = new HttpHeaders();
 		String encodeToken = cipherService.encodeToken(token);

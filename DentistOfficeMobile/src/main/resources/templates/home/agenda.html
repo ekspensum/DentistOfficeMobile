@@ -36,10 +36,10 @@
 		<div th:if="${workingWeekFreeTimeMap != null }">
 			<p><span th:text="#{home.header.agenda.selectedDoctor }" ></span><b  th:text="${doctor.firstName + '  ' + doctor.lastName}"></b></p>
 			<button type="submit" name="weekResultDriver" formmethod="POST" formaction="/agenda" value="stepLeft"
-			 																								th:disabled="${disableLeftArrow == 'YES'}" class="navigateButton"
+			 																								th:disabled="${disableLeftArrow == 'YES'}" class="navbutton"
 			 																								th:text="#{button.agenda.previous7days}" ></button>
 			<button type="submit" name="weekResultDriver" formmethod="POST" formaction="/agenda" value="stepRight" 
-																											th:disabled="${disableRightArrow == 'YES' }" class="navigateButton" 
+																											th:disabled="${disableRightArrow == 'YES' }" class="navbutton" 
 																											th:text="#{button.agenda.next7days}"></button>
 			<br><br>
 			

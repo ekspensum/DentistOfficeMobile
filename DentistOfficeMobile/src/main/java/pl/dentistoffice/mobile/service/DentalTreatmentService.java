@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,6 +18,9 @@ import pl.dentistoffice.mobile.model.TreatmentCategory;
 
 @Service
 public class DentalTreatmentService {
+	
+	@Value(value = "${URL_SERVICES}")
+	private String URL_SERVICES;
 	
 	@Autowired
 	private TreatmenCategorytListWrapper treatmenCategorytListWrapper;
@@ -53,9 +57,7 @@ public class DentalTreatmentService {
 		
 		RestTemplate restTemplate = new RestTemplate();
 		TreatmenCategorytListWrapper treatmenCategorytListWrapperFromBody = restTemplate
-				.getForEntity("http://localhost:8080/dentistoffice/mobile/services", TreatmenCategorytListWrapper.class).getBody();
-//		TreatmenCategorytListWrapper treatmenCategorytListWrapperFromBody = restTemplate
-//				.getForEntity("https://dentistoffice.herokuapp.com/mobile/services", TreatmenCategorytListWrapper.class).getBody();
+				.getForEntity(URL_SERVICES, TreatmenCategorytListWrapper.class).getBody();
 		List<TreatmentCategory> allTreatmentCategory = treatmenCategorytListWrapperFromBody.getTreatmentCategoriesList();
 		treatmenCategorytListWrapper.setTreatmentCategoriesList(allTreatmentCategory);
 		allTreatmentCategory.sort(new Comparator<TreatmentCategory>() {

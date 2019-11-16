@@ -9,7 +9,7 @@
 <body>
   <section layout:fragment="content" id="content">
  	<h3 th:text="#{exception}"></h3>
- 	<p th:text="#{${exception}}" th:unless="${exception == null || exception == ''}"></p> 
+ 	<p th:text="#{${exception}}" th:unless="${exception == null}"></p> 
   </section>
 </body>
 </html>

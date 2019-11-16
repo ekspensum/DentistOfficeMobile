@@ -78,7 +78,8 @@ public class HomeController {
 		TreatmentCategory selectedTreatmentCategory = dentalTreatmentService.getTreatmentCategory(Integer.valueOf(categoryId));
 		model.addAttribute("selectedTreatmentCategory", selectedTreatmentCategory);
 		List<TreatmentCategory> treatmentCategoriesList = dentalTreatmentService.getTreatmentCategoriesList();
-		model.addAttribute("treatmentCategoriesList", treatmentCategoriesList);		
+		model.addAttribute("treatmentCategoriesList", treatmentCategoriesList);
+		model.addAttribute("paramCategoryId", categoryId);
 		return "/home/services";
 	}
 	
