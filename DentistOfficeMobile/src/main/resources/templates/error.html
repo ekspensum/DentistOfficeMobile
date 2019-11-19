@@ -10,6 +10,7 @@
   <section layout:fragment="content" id="content">
  	<h3 th:text="#{exception}"></h3>
  	<p th:text="#{${exception}}" th:unless="${exception == null}"></p> 
+ 	<p><img width="250" th:src="@{/images/error.jpg}"></p>
   </section>
 </body>
 </html>

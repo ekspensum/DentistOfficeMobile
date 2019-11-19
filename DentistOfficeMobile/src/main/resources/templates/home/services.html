@@ -16,13 +16,13 @@
 				<option th:each="category : ${treatmentCategoriesList}" 
 						th:value="${category.id }" 
 						th:text="${category.categoryName }" 
-						th:selected="${#strings.toString(category.id) == paramCategoryId}">
+						th:selected="${#strings.toString(category.id) == #request.getParameter('categoryId')}">
 				</option>
 		</select>
 		<input type="submit" th:value="#{button.treatments.search}" class="navbutton" />
 	</form>
 
-	<div th:if="${selectedTreatmentCategory != null && paramCategoryId != '1'}">
+	<div th:if="${selectedTreatmentCategory != null && #request.getParameter('categoryId') != '1'}">
 		<h3 th:text="${selectedTreatmentCategory.categoryName}"></h3>
 		<table class="search">
 			<thead>

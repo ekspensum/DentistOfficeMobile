@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -23,7 +25,7 @@ import pl.dentistoffice.mobile.model.DoctorListWrapper;
 import pl.dentistoffice.mobile.model.Patient;
 
 @Service
-public class UserSrvice {
+public class UserService {
 	
 	@Value(value = "${URL_LOGIN}")
 	private String URL_LOGIN;
@@ -36,16 +38,18 @@ public class UserSrvice {
 	
 	@Autowired
 	private Environment env;
-
 	@Autowired
 	private CipherService cipherService;
+	@Autowired
+	private RestTemplate restTemplate;
+	
+	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 	
 	public boolean loginPatient(String username, String password, HttpSession httpSession, Model model) {	
 			MultiValueMap<String, String> loginData = new LinkedMultiValueMap<String, String>();
 			loginData.add("username", username);
 			loginData.add("password", password);
 			
-			RestTemplate restTemplate = new RestTemplate();
 			ResponseEntity<Patient> responseEntity = restTemplate.postForEntity(URL_LOGIN, loginData, Patient.class);
 			if(!responseEntity.getStatusCode().isError()) {
 				Patient patient = responseEntity.getBody();
@@ -61,7 +65,6 @@ public class UserSrvice {
 	}
 
 	public List<Doctor> getAllDoctors() {
-		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<DoctorListWrapper> responseEntity = restTemplate.getForEntity(URL_DOCTORS, DoctorListWrapper.class);
 		if(!responseEntity.getStatusCode().isError()) {
 			DoctorListWrapper doctorListWrapper = responseEntity.getBody();
@@ -90,7 +93,6 @@ public class UserSrvice {
 			String encodeToken = cipherService.encodeToken(token);
 			requestHeaders.add(HttpHeaders.AUTHORIZATION, encodeToken);
 			HttpEntity<Patient> requestEntity = new HttpEntity<Patient>(patient, requestHeaders);
-			RestTemplate restTemplate = new RestTemplate();
 			ResponseEntity<Boolean> responseEntity = restTemplate.exchange(URL_EDIT_PATIENT, HttpMethod.PUT, requestEntity, Boolean.class);
 			
 			if(!responseEntity.getStatusCode().isError()) {
@@ -98,6 +100,10 @@ public class UserSrvice {
 				if(responseBody) {
 					return true;
 				} else {
+					if(responseEntity.getHeaders().get(HttpHeaders.WARNING) != null) {
+						String warning = responseEntity.getHeaders().get(HttpHeaders.WARNING).get(0);
+						logger.error("ERROR MESSAGE FROM REST SERVICE: {}", warning);					
+					}
 					return false;
 				} 					
 			}

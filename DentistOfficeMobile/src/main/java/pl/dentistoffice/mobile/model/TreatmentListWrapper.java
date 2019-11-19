@@ -9,8 +9,8 @@ import lombok.Setter;
 
 @Component
 @Getter @Setter
-public class TreatmenCategorytListWrapper {
+public class TreatmentListWrapper {
 
 	private List<TreatmentCategory> treatmentCategoriesList;
-	
+	private List<DentalTreatment> dentalTreatmentsList;
 }

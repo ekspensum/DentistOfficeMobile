@@ -26,28 +26,23 @@ import pl.dentistoffice.mobile.model.TreatmentCategory;
 import pl.dentistoffice.mobile.service.DentalTreatmentService;
 import pl.dentistoffice.mobile.service.ReCaptchaService;
 import pl.dentistoffice.mobile.service.SendEmail;
-import pl.dentistoffice.mobile.service.UserSrvice;
+import pl.dentistoffice.mobile.service.UserService;
 import pl.dentistoffice.mobile.service.VisitService;
 
 @Controller
-@SessionAttributes(names = {"patient", "token", "allDoctors", "doctor", "dayStart"})
+@SessionAttributes(names = {"allDoctors", "doctor", "dayStart"})
 public class HomeController {
 
 	@Autowired
 	private Environment env;
-	
 	@Autowired
-	private UserSrvice userService;
-
+	private UserService userService;
 	@Autowired
 	private SendEmail sendEmail;
-	
 	@Autowired
 	private ReCaptchaService reCaptchaService;
-	
 	@Autowired
 	private DentalTreatmentService dentalTreatmentService;
-	
 	@Autowired
 	private VisitService visitService;
 	
@@ -79,7 +74,6 @@ public class HomeController {
 		model.addAttribute("selectedTreatmentCategory", selectedTreatmentCategory);
 		List<TreatmentCategory> treatmentCategoriesList = dentalTreatmentService.getTreatmentCategoriesList();
 		model.addAttribute("treatmentCategoriesList", treatmentCategoriesList);
-		model.addAttribute("paramCategoryId", categoryId);
 		return "/home/services";
 	}
 	

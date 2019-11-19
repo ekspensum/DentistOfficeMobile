@@ -21,6 +21,8 @@ public class AdviceController {
 			int rawStatusCode = ((HttpClientErrorException) ex).getRawStatusCode();
 			if(rawStatusCode == 404) {
 				model.addAttribute("exception", "exception.404");				
+			} else if(rawStatusCode == 400) {
+				model.addAttribute("exception", "exception.400");				
 			} else if(rawStatusCode == 401) {
 				model.addAttribute("exception", "exception.401");				
 			} else if(rawStatusCode == 403) {
@@ -43,6 +45,7 @@ public class AdviceController {
 		}
 		
 		System.out.println("Advice contr.  "+ex.getClass().getName()+" "+ex.getCause()+" "+ex.getLocalizedMessage());
+		ex.printStackTrace();
 		
 		return "/error";
 	}

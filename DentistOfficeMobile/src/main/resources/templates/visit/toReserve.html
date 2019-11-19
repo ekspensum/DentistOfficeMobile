@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+  		layout:decorate="~{layout}">
+<head>
+  <title>Patient page</title>
+</head>
+<body>
+  <section layout:fragment="content" id="patientContent">
+    <h3 th:text="#{visit.header.toReserve}"></h3>
+	<p><span th:text="#{home.header.agenda.selectedDoctor }" ></span><b  th:text="${doctor.firstName + '  ' + doctor.lastName}"></b></p>
+	
+	<form name="selectVisitDateForm" th:action="@{/visit/reservation}" method="POST">
+			<button type="submit" name="weekResultDriver" formmethod="POST" formaction="/visit/toReserve" value="stepLeft"
+			 																								th:disabled="${disableLeftArrow == 'YES'}" class="navbutton"
+			 																								th:text="#{button.agenda.previous7days}" ></button>
+			<button type="submit" name="weekResultDriver" formmethod="POST" formaction="/visit/toReserve" value="stepRight" 
+																											th:disabled="${disableRightArrow == 'YES' }" class="navbutton" 
+																											th:text="#{button.agenda.next7days}"></button>
+			<br><br>
+			<select th:name="treatment1">
+					<option th:each="treat : ${treatments}" th:value="${treat.id }" th:text="${treat.name + ' ' + treat.price}" 
+									th:selected="${#request.getParameter('treatment1') == #strings.toString(treat.id)}" ></option>
+			</select>
+			<br><br>
+			<select th:name="treatment2">
+					<option th:each="treat : ${treatments}" th:value="${treat.id }" th:text="${treat.name + ' ' + treat.price}" 
+									th:selected="${#request.getParameter('treatment2') == #strings.toString(treat.id)}" ></option>
+			</select>
+			<br><br>
+			<select th:name="treatment3">
+					<option th:each="treat : ${treatments}" th:value="${treat.id }" th:text="${treat.name + ' ' + treat.price}" 
+									th:selected="${#request.getParameter('treatment3') == #strings.toString(treat.id)}" ></option>
+			</select>
+			<br><br>
+
+			<table border="1" class="workingTime">			
+					<tr th:each="map, iter : ${workingWeekFreeTimeMap}"  th:class="${iter.odd}? 'odd'">
+						<th th:text="${map.key}"></th>
+						<td th:text="${dayOfWeekPolish[workingWeekFreeTimeMap.keySet().toArray()[iter.index].getDayOfWeek().getValue()] }"></td>
+							<td th:if="${workingWeekFreeTimeMap.values().toArray()[iter.index].toString().length() == 2 }" th:text="#{home.agenda.noFreeTerms}"></td>
+							<td th:if="${workingWeekFreeTimeMap.values().toArray()[iter.index].toString().length() > 2 }">
+								<table>
+									<tr th:each="time : ${map.value}">
+										<td><input type="text" th:value="${time.key}" readonly="readonly" class="inputTime" /></td>
+										<td><br></td>
+										<td><br></td>
+										<td><input type="checkbox" th:name="dateTime" th:value="${#strings.toString(map.key) + ';' + time.key}" class="checkbox" /></td>
+									</tr>
+								</table>				
+							</td>
+					</tr>			
+			</table>	
+			<table>
+				<tr>
+					<td align="right" width="820px"><input type="submit" th:value="#{button.visit.addVisit}" onclick="return validateSelectChbxVisitDate()" 
+										class="navbutton" /></td>
+				</tr>
+			</table>
+	</form>
+    
+	 <section th:insert="patient/patientMenu.html" id="patientMenu"></section>
+  </section>
+  <footer>
+    <p layout:fragment="custom-footer">This is some footer content from Home page</p>
+  </footer>
+</body>
+</html>

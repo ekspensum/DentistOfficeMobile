@@ -13,14 +13,14 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import pl.dentistoffice.mobile.model.Doctor;
 import pl.dentistoffice.mobile.model.DoctorListWrapper;
-import pl.dentistoffice.mobile.service.UserSrvice;
+import pl.dentistoffice.mobile.service.UserService;
 
 @Controller
 @SessionAttributes(names = {"patient", "token"})
 public class DoctorController {
 
 	@Autowired
-	private UserSrvice userSrvice;
+	private UserService userSrvice;
 	
 //	@GetMapping(path = "/doctors")
 //	public String getDoctors(@SessionAttribute(name = "token", required = false) String token, Model model) {

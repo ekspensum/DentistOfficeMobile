@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
@@ -18,7 +19,7 @@ public class DentistOfficeMobileApplication {
 		SpringApplication.run(DentistOfficeMobileApplication.class, args);
 	}
 
-	//	for Thymeleaf
+	//	for Thymeleaf layout
 	@Bean
 	public LayoutDialect layoutDialect() {
 	    return new LayoutDialect();
@@ -34,5 +35,10 @@ public class DentistOfficeMobileApplication {
 //	    Not to use on Heroku cloud
 //	    multipartResolver.setUploadTempDir(new FileSystemResource(System.getenv("TMP")));
 	    return multipartResolver;
+	}
+	
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
 	}
 }

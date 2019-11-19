@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import pl.dentistoffice.mobile.model.Patient;
-import pl.dentistoffice.mobile.service.UserSrvice;
+import pl.dentistoffice.mobile.service.UserService;
 
 @Controller
 @SessionAttributes(names = {"patient", "token", "image"})
 public class PatientController {
 
 	@Autowired
-	private UserSrvice userSrvice;
+	private UserService userSrvice;
 	
 	@GetMapping(path = "/patient/patient")
 	public String patient() {
@@ -37,7 +37,11 @@ public class PatientController {
 	}
 	
 	@PostMapping(path = "/patient/login")
-	public String login(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password, HttpSession httpSession, Model model) {
+	public String login(@RequestParam(name = "username") String username, 
+								@RequestParam(name = "password") String password, 
+								HttpSession httpSession, 
+								Model model) {
+		
 		boolean loggedPatient = userSrvice.loginPatient(username, password, httpSession, model);
 		if(loggedPatient) {
 			return "redirect:/patient/patient";
@@ -75,7 +79,8 @@ public class PatientController {
 										Model model,
 										@RequestParam("photo") MultipartFile photo, 
 										@SessionAttribute("image") byte [] image,
-										@SessionAttribute("token") String token
+										@SessionAttribute("token") String token,
+										HttpSession httpSession
 										) throws IOException {
 
 		
@@ -86,6 +91,9 @@ public class PatientController {
 			Boolean editPatient = userSrvice.editPatient(token, patient);
 			if(editPatient) {
 				model.addAttribute("success", "patient.success.editPatient");
+				model.addAttribute("patient", null);
+				model.addAttribute("token", null);
+				httpSession.invalidate();
 				return "forward:/patient/success";				
 			} else {
 				model.addAttribute("defeat", "patient.defeat.editPatient");

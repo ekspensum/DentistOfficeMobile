@@ -187,14 +187,14 @@ table.search tr:hover {
 
 
 
-/* input[type=text], */
-/* input[type=search], */
-/* input[type=password], */
-/* input[type=file], */
-/* input[type=date], */
-/* select { */
-/*     background-color: #ade2af; */
-/* } */
+input[type=text],
+input[type=search],
+input[type=password],
+input[type=file],
+input[type=date],
+select {
+    background-color: #ade2af;
+}
 
 /* input[type=file], */
 /* input[type=search], */
@@ -215,10 +215,20 @@ textarea {
     background-color: #ade2af;
 }
 
-/* .inputTime { */
-/*     width: 40px; */
-/* } */
+.inputTime {
+    width: 60px;
+    height: 30px;
+}
 
+.checkbox {
+      /* Double-sized Checkboxes */
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  transform: scale(2);
+  padding: 10px;	
+}
 
 /* table.workingTime { */
 /*     border-collapse: collapse; */
@@ -241,13 +251,13 @@ textarea {
 /*     border-color: beige; */
 /* } */
 
-/* .workingTime input[type="checkbox"]:checked { */
-/*     box-shadow: 0 0 0 5px blue; */
-/* } */
+.workingTime input[type="checkbox"]:checked {
+    box-shadow: 0 0 0 5px blue;
+}
 
-/* input[type="checkbox"]:checked { */
-/*     box-shadow: 0 0 0 5px green; */
-/* } */
+input[type="checkbox"]:checked {
+    box-shadow: 0 0 0 5px green;
+}
 
 textarea.homePageDoctorsDescription {
     height: 300px;
@@ -292,14 +302,14 @@ textarea.homePageTreatmentDescription {
     background-color: transparent;
 }
 
-table.homePageAgenda {
+table.doctorsPhoto {
     border-collapse: collapse;
     background-color: rgb(132, 148, 131);
     width: 150px;
     height: 150px;
 }
 
-button.homePageAgenda {
+button.doctorsPhoto {
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -307,7 +317,7 @@ button.homePageAgenda {
     height: 125px;
 }
 
-img.homePageAgenda {
+img.doctorsPhoto {
     height: 110px;
     max-width: 110px;
     display: block;
