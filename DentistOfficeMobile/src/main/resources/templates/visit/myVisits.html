@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+  		layout:decorate="~{layout}">
+<head>
+  <title>Activation page</title>
+</head>
+<body>
+	<section layout:fragment="content"  id="patientContent">
+	<h3 th:text="#{patient.header.myVisits}"></h3>
+
+
+	<form method="POST" th:action="@{/visit/myVisits}" id="myVisitsForm">
+		<select th:name="statusId">
+				<option th:each="status : ${visitStatusList}" 
+								th:value="${status.id }" 
+								th:selected="${#request.getParameter('statusId') == #strings.toString(status.id)}" 
+								th:text="${status.description}" >
+				</option>
+		</select>
+		<input type="submit" th:value="#{button.visit.display}" class="navbutton" />
+	<br><br>
+	</form>
+	<table border="1" style="width:100%">
+		<thead th:if="${#request.getParameter('statusId') != null}">
+			<tr><th th:text="#{visit.table.head.on}"></th>
+					<th th:text="#{visit.table.head.date}"></th>
+					<th th:text="#{visit.table.head.time}"></th>
+					<th th:text="#{visit.table.head.doctor}" colspan="2"></th>
+					<th th:text="#{visit.table.head.treatment}"></th>
+					<th th:text="#{visit.table.head.price}"></th>
+					<th th:if="${#request.getParameter('statusId') == '1'}" th:text="#{visit.table.head.cancel}"></th>
+			</tr>
+		</thead>
+				<tbody th:each="visit,iter : ${visitsListByStatus}" th:class="${iter.odd}? 'odd'">
+					<tr>
+						<td th:text="${iter.count}" align="left"></td>
+						<td th:text="${visit.visitDateTime.toLocalDate()}" align="center"></td>
+						<td th:text="${visit.visitDateTime.toLocalTime()}" align="center"></td>
+						<td th:text="${visit.doctor.firstName }"></td>
+						<td th:text="${visit.doctor.lastName }"></td>
+						<td colspan="2"></td>
+						<td th:if="${visit.status.id == 1}" align="center">
+							<button form="myVisitsForm" type="submit" name="visitId" th:value="${visit.id }" 
+											formmethod="POST" th:formaction="@{/visit/deleteVisit}" class="navbutton" 
+											onclick="return confirmRemoveVisit()" th:text="#{button.visit.cancel}">
+							</button>
+						</td>
+					</tr>
+					<tr th:each="treat, iter2 : ${visit.visitTreatmentComment}" th:if="${treat.treatment.id != 1 }" th:class="${iter2.odd}? 'odd'">
+						<td th:text="${iter.count + '.' + iter2.count}" align="right"></td>
+						<td colspan="4"></td>
+						<td th:text="${treat.treatment.name}"></td>
+						<td th:text="${treat.treatment.price}" align="right"></td>
+					</tr>
+				</tbody>
+	</table>
+	<p th:if="${visitsListByStatus != null && visitsListByStatus.size() == 0}" th:text="#{visit.header.novisits}" class="msg"></p>
+
+	 <section th:insert="patient/patientMenu.html" id="patientMenu"></section>
+  </section>
+</body>
+</html>

@@ -9,8 +9,8 @@ import lombok.Setter;
 
 @Component
 @Getter @Setter
-public class VisitListWrapper {
+public class VisitAndStatusListWrapper {
 	
 	private List<Visit> visitsList;
-	
+	private List<VisitStatus> visitStatusList;
 }

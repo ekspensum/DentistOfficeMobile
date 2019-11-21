@@ -13,16 +13,16 @@
 
 <body th:onload="'dateTime(\''+#{home.currentDateTime}+'\'); changeSlide();'">
   <header id="header">
-  	<a th:href="@{/patient/login}"><button th:text="#{button.login}" th:if="${session.patient == null && session.token == null}" id="login"></button></a>
+  	<a th:href="@{/patient/login}"><button th:text="#{button.login}" th:if="${session.patient == null || session.token == null}" id="login"></button></a>
   	<a th:href="@{/patient/logout}"><button th:text="#{button.logout}" th:if="${session.patient != null && session.token != null}" id="logout"></button></a>
     <h1 th:text="#{home.welcome}"></h1>
 		<div id="clock"></div>
 		<div id="logged">
-			<span th:text="#{patient.logged}" th:unless="${patient == null}"></span>
-			<b th:text="${patient.firstName+' '+patient.lastName}" th:unless="${patient == null}"></b>
+			<span th:text="#{patient.logged}" th:unless="${patient == null || session.token == null}"></span>
+			<b th:text="${patient.firstName+' '+patient.lastName}" th:unless="${patient == null || session.token == null}"></b>
 		</div>
   </header>
-	<div layout:fragment="menu" id="menu" class="navbar">
+	<div layout:fragment="menu" id="menu" >
 		<a th:href="@{/}"><button th:text="#{button.home}" class="navbutton"></button></a> 
 		<a th:href="@{/doctors}"><button th:text="#{button.doctors}" class="navbutton"></button></a>
 		<a th:href="@{/services}"><button th:text="#{button.treatments}" class="navbutton"></button></a>

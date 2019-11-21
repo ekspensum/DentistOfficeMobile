@@ -1,5 +1,6 @@
 package pl.dentistoffice.mobile.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -29,12 +30,16 @@ public class UserService {
 	
 	@Value(value = "${URL_LOGIN}")
 	private String URL_LOGIN;
-	
 	@Value(value = "${URL_DOCTORS}")
 	private String URL_DOCTORS;
-
 	@Value(value = "${URL_EDIT_PATIENT}")
 	private String URL_EDIT_PATIENT;
+	@Value(value = "${URL_REGISTER_PATIENT}")
+	private String URL_REGISTER_PATIENT;
+	@Value(value = "${tokenForAddNewPatient}")
+	private String tokenForAddNewPatient;
+	@Value(value = "${timeoutForTokenForAddNewPatient}")
+	private String timeoutForTokenForAddNewPatient;
 	
 	@Autowired
 	private Environment env;
@@ -88,25 +93,48 @@ public class UserService {
 		return dayOfWeekPolish;
 	}
 
-	public Boolean editPatient(String token, Patient patient) {	
-			HttpHeaders requestHeaders = new HttpHeaders();
-			String encodeToken = cipherService.encodeToken(token);
-			requestHeaders.add(HttpHeaders.AUTHORIZATION, encodeToken);
-			HttpEntity<Patient> requestEntity = new HttpEntity<Patient>(patient, requestHeaders);
-			ResponseEntity<Boolean> responseEntity = restTemplate.exchange(URL_EDIT_PATIENT, HttpMethod.PUT, requestEntity, Boolean.class);
-			
-			if(!responseEntity.getStatusCode().isError()) {
-				Boolean responseBody = responseEntity.getBody();
-				if(responseBody) {
-					return true;
-				} else {
-					if(responseEntity.getHeaders().get(HttpHeaders.WARNING) != null) {
-						String warning = responseEntity.getHeaders().get(HttpHeaders.WARNING).get(0);
-						logger.error("ERROR MESSAGE FROM REST SERVICE: {}", warning);					
-					}
-					return false;
-				} 					
+	public String registerPatient(Patient patient) {
+		String tokenWithTimeout = LocalDateTime.now()
+													.plusSeconds(Integer.valueOf(timeoutForTokenForAddNewPatient))
+													.withNano(0).toString()
+													+tokenForAddNewPatient;
+		
+		String encodeToken = cipherService.encodeToken(tokenWithTimeout);
+		HttpHeaders requestHeaders = new HttpHeaders();
+		requestHeaders.add(HttpHeaders.AUTHORIZATION, encodeToken);
+		HttpEntity<Patient> requestEntity = new HttpEntity<Patient>(patient, requestHeaders);
+		ResponseEntity<String> responseEntity = restTemplate.exchange(URL_REGISTER_PATIENT, HttpMethod.POST, requestEntity, String.class);
+		
+		if (!responseEntity.getStatusCode().isError()) {
+			String responseBody = responseEntity.getBody();
+			if (responseBody.equals("error") || responseBody.equals("NoHeader") || responseBody.equals("NotAuthenticated")) {
+				if (responseEntity.getHeaders().get(HttpHeaders.WARNING) != null) {
+					String warning = responseEntity.getHeaders().get(HttpHeaders.WARNING).get(0);
+					logger.error("ERROR MESSAGE FROM REST SERVICE: {}", warning);
+				}
 			}
-			throw new HttpClientErrorException(responseEntity.getStatusCode());
+			return responseBody;
+		}
+		throw new HttpClientErrorException(responseEntity.getStatusCode());
+	}
+	
+	public String editPatient(String token, Patient patient) {
+		HttpHeaders requestHeaders = new HttpHeaders();
+		String encodeToken = cipherService.encodeToken(token);
+		requestHeaders.add(HttpHeaders.AUTHORIZATION, encodeToken);
+		HttpEntity<Patient> requestEntity = new HttpEntity<Patient>(patient, requestHeaders);
+		ResponseEntity<String> responseEntity = restTemplate.exchange(URL_EDIT_PATIENT, HttpMethod.PUT, requestEntity, String.class);
+
+		if (!responseEntity.getStatusCode().isError()) {
+			String responseBody = responseEntity.getBody();
+			if (responseBody.equals("error")) {
+				if (responseEntity.getHeaders().get(HttpHeaders.WARNING) != null) {
+					String warning = responseEntity.getHeaders().get(HttpHeaders.WARNING).get(0);
+					logger.error("ERROR MESSAGE FROM REST SERVICE: {}", warning);
+				}
+			}
+			return responseBody;
+		}
+		throw new HttpClientErrorException(responseEntity.getStatusCode());
 	}
 }

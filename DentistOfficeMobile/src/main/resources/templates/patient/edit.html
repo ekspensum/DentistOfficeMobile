@@ -15,7 +15,7 @@
 				<tr>
 					<td rowspan="16"><img th:src="@{'data:image;base64,'+${patient.base64Photo }}" width="250px" /></td>
 					<td th:text="#{patient.user.username}"></td>
-					<td><input type="text" th:field="${patient.user.username}"  readonly="readonly" /></td>
+					<td><input type="text" th:field="${patient.user.username}"  /></td>
 					<td th:if="${#fields.hasErrors('user.username')}" th:errors="*{user.username}" class="msgError"></td>
 				</tr>
 				<tr>
@@ -35,7 +35,7 @@
 					<td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="msgError"></td>
 				</tr>
 				<tr>
-					<td th:text="#{patient.lastname}"></td>
+					<td th:text="#{patient.lastName}"></td>
 					<td><input type="text" th:field="*{lastName}" /></td>
 					<td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="msgError"></td>
 				</tr>

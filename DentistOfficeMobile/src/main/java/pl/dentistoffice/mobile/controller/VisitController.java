@@ -6,13 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -20,13 +18,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import pl.dentistoffice.mobile.model.DentalTreatment;
 import pl.dentistoffice.mobile.model.Doctor;
 import pl.dentistoffice.mobile.model.Patient;
+import pl.dentistoffice.mobile.model.Visit;
+import pl.dentistoffice.mobile.model.VisitAndStatusListWrapper;
 import pl.dentistoffice.mobile.model.VisitStatus;
 import pl.dentistoffice.mobile.service.DentalTreatmentService;
 import pl.dentistoffice.mobile.service.UserService;
 import pl.dentistoffice.mobile.service.VisitService;
 
 @Controller
-@SessionAttributes(names = {"patient", "token", "allDoctorsList", "treatments", "dayStart", "doctor"})
+@SessionAttributes(names = {"patient", "token", "allDoctorsList", "treatments", "dayStart", "doctor", "allVisitsList", "visitStatusList"})
 public class VisitController {
 
 	@Autowired
@@ -108,7 +108,7 @@ public class VisitController {
 		return "/visit/toReserve";
 	}
 	
-	@RequestMapping(path = "/visit/reservation", method = RequestMethod.POST)
+	@PostMapping(path = "/visit/reservation")
 	public String visitReservationByPatient(@SessionAttribute("doctor") Doctor doctor, 
 																@RequestParam(name = "dateTime", required = false) String [] dateTime, 
 																@RequestParam("treatment1") String treatment1Id,
@@ -134,33 +134,37 @@ public class VisitController {
 		}		
 	}
 
-	
-	
-//======================	
-	
-	
-	@GetMapping(path = "/visitStatus")
-	public String getVisitStatus() {
-		return "/visit/visitStatus";
+	@GetMapping(path = "/visit/myVisits")
+	public String showMyVisitsPatient(@SessionAttribute(name = "patient") Patient patient, @SessionAttribute(name = "token") String token, Model model) {
+		VisitAndStatusListWrapper visitsAndStatusListForPatient = visitService.getVisitsAndStatusListForPatient(patient.getId(), token);
+		List<VisitStatus> visitStatusList = visitsAndStatusListForPatient.getVisitStatusList();
+		model.addAttribute("visitStatusList", visitStatusList);
+		List<Visit> allVisitsList = visitsAndStatusListForPatient.getVisitsList();
+		model.addAttribute("allVisitsList", allVisitsList);
+		return "/visit/myVisits";
 	}
-
-	@PostMapping(path = "/visitStatus")
-	public String getVisitStatus(@SessionAttribute(name = "token", required = false) String token, 
-												@RequestParam(name = "id") String statusId, 
-												Model model) {
-		
-			if(token != null && !token.equals("")) {
-				ResponseEntity<VisitStatus> responseEntity = visitService.getVisitStatus(token, statusId);
-				
-				if(responseEntity.getStatusCodeValue() == 200) {
-					System.out.println("VisitControler - status "+responseEntity.getBody().getDescription());					
-				} else {
-					System.out.println("VisitController - doctors, response: "+responseEntity.getStatusCode());
-				}	
-			} else {
-				System.out.println("VisitController - lack session (not logged)");
-			}
-		
-		return "/visit/visitStatus";
+	
+	@PostMapping(path = "/visit/myVisits")
+	public String showMyVisitsPatient(@SessionAttribute("allVisitsList") List<Visit> allVisitsList, 
+														@RequestParam("statusId") String statusId,
+														@SessionAttribute("visitStatusList") List<VisitStatus> visitStatusList,
+														Model model) {
+		List<Visit> visitsListByStatus = visitService.getVisitsListByStatus(allVisitsList, statusId);
+		model.addAttribute("visitsListByStatus", visitsListByStatus);
+		model.addAttribute("visitStatusList", visitStatusList);
+		return "/visit/myVisits";
+	}	
+	
+	@PostMapping(path = "/visit/deleteVisit")
+	public String deleteVisit(@SessionAttribute("token") String token, @RequestParam("visitId") String visitId, Model model) {
+		boolean deleteVisit = visitService.deleteVisit(visitId, token);
+		if(deleteVisit) {
+			model.addAttribute("success", "patient.success.deleteVisit");
+			return "forward:/patient/success";
+		} else {
+			model.addAttribute("defeat", "patient.defeat.deleteVisit");
+			return "forward:/patient/defeat";
+		}
 	}
+	
 }

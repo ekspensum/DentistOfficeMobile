@@ -67,6 +67,41 @@ public class PatientController {
 		return "/patient/logout";
 	}
 	
+	@GetMapping(path = "/patient/register")
+	public String registration(Model model) {
+		model.addAttribute("patient", new Patient());
+		return "/patient/register";
+	}
+	
+	@PostMapping(path = "/patient/register")
+	public String registration(@Valid Patient patient, 
+											BindingResult result, 
+											Model model,
+											@RequestParam("photo") MultipartFile photo 
+											) throws IOException {
+
+		if(photo != null) {
+			patient.setPhoto(photo.getBytes());
+		}
+		if(!result.hasErrors()) {
+			String answer = userSrvice.registerPatient(patient);
+			if(answer.equals("true")) {
+				model.addAttribute("success", "patient.success.register");
+				return "forward:/patient/success";				
+			} else {
+				if(answer.equals("NotDistinctLogin")) {
+					model.addAttribute("defeat", "patient.defeat.notDistinctLogin");					
+				} else if(answer.equals("Timeout")) {
+					model.addAttribute("defeat", "patient.defeat.register.timeout");
+				} else {
+					model.addAttribute("defeat", "patient.defeat.register");
+				}
+				return "forward:/patient/defeat";
+			}
+		}
+		return "/patient/register";
+	}
+	
 	@GetMapping(path = "/patient/edit")
 	public String editData(@SessionAttribute("patient") Patient patient, Model model) {
 		model.addAttribute("image", patient.getPhoto());
@@ -88,15 +123,19 @@ public class PatientController {
 			patient.setPhoto(image);
 		}
 		if(!result.hasErrors()) {
-			Boolean editPatient = userSrvice.editPatient(token, patient);
-			if(editPatient) {
+			String answer = userSrvice.editPatient(token, patient);
+			if(answer.equals("true")) {
 				model.addAttribute("success", "patient.success.editPatient");
 				model.addAttribute("patient", null);
 				model.addAttribute("token", null);
 				httpSession.invalidate();
 				return "forward:/patient/success";				
 			} else {
-				model.addAttribute("defeat", "patient.defeat.editPatient");
+				if(answer.equals("NotDistinctLogin")) {
+					model.addAttribute("defeat", "patient.defeat.notDistinctLogin");					
+				} else	{
+					model.addAttribute("defeat", "patient.defeat.editPatient");
+				}
 				return "forward:/patient/defeat";
 			}
 		}

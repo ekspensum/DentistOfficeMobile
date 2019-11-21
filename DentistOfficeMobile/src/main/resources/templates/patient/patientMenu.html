@@ -2,14 +2,12 @@
 
 <h4 th:text="#{patient.header.menu}"></h4>
 
-	<div th:if="${session.patient == null}">
-		<p><a th:href="@{patient/register}"><button th:text="#{button.patient.register}" class="navbutton"></button></a></p>
+	<div th:if="${session.patient == null || session.token == null}">
+		<p><a th:href="@{/patient/register}"><button th:text="#{button.patient.register}" class="navbutton"></button></a></p>
 	</div>
 	<div th:if="${session.patient != null && session.token != null}">
-		<p><a th:href="@{/visit/selectDoctor}"><button th:text="#{button.patient.newVisit}" class="navbutton"></button></a></p>
-		
-		
+		<p><a th:href="@{/visit/selectDoctor}"><button th:text="#{button.patient.newVisit}" class="navbutton"></button></a></p>		
+		<p><a th:href="@{/visit/myVisits}"><button th:text="#{button.patient.myVisits}" class="navbutton"></button></a></p> 
 		<p><a th:href="@{/patient/edit}"><button th:text="#{button.patient.edit}" class="navbutton"></button></a></p> 
 	</div>
-
 </div>

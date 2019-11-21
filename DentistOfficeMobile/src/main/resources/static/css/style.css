@@ -45,6 +45,7 @@ table.search tr:hover {
     width: 140px;
     height: 40px;
     background-color: beige;
+    font: bold 14px Arial;
 }
 
 #login:hover {
@@ -58,6 +59,7 @@ table.search tr:hover {
     width: 140px;
     height: 40px;
     background-color: beige;
+    font: bold 14px Arial;
 }
 
 #logout:hover {
@@ -68,6 +70,7 @@ table.search tr:hover {
 	position: absolute;
     right: 30px;
     top: 80px;
+    font: 14px Arial;
 }
 
 #header {
@@ -87,27 +90,10 @@ table.search tr:hover {
     width: 100%;
     top: 17%;
     height: 7%;
-    border-bottom: 2px solid beige;
     text-align: center;
     position: fixed;
     overflow: auto;
-}
-
-.navbar {
-    padding-top: 7px;
-    
-}
-
-.navbutton {
-    font: bold 12px Arial;
-    width: 140px;
-    height: 40px;
-    border-radius: 12px;
-    background-color: #bbe7bd;
-}
-
-.navbutton:hover {
-    background-color: rgb(133, 155, 89);
+    padding-top: 10px;
 }
 
 #content {
@@ -119,6 +105,7 @@ table.search tr:hover {
     overflow: auto;
     padding-left: 1%;
     position: fixed;
+    border-top: 2px solid beige;
 }
 
 #patientContent {
@@ -129,11 +116,13 @@ table.search tr:hover {
     bottom: 6%;
     overflow: auto;
     padding-left: 1%;
-    border-right: 2px solid beige;
     position: fixed;
+	border-top: 2px solid beige;
+    border-right: 2px solid beige;
 }
 
 #patientMenu {
+	border-top: 2px solid beige;
     left: 80%;
     width: 18%;
     top: 24%;
@@ -142,6 +131,16 @@ table.search tr:hover {
     overflow: auto;
     padding-left: 2%;
     position: fixed;
+}
+
+#footer {
+    left: 0%;
+    width: 100%;
+    top: 94%;
+    height: 6%;
+    position: fixed;
+    border-top: 2px solid beige;
+    text-align: center;
 }
 
 .sidemenuButton {
@@ -156,14 +155,16 @@ table.search tr:hover {
     background-color: rgb(133, 155, 89);
 }
 
-#footer {
-    left: 0%;
-    width: 100%;
-    top: 94%;
-    height: 6%;
-    position: fixed;
-    border-top: 2px solid beige;
-    text-align: center;
+.navbutton {
+    font: bold 14px Arial;
+    min-width: 130px;
+    height: 40px;
+    border-radius: 12px;
+    background-color: #bbe7bd;
+}
+
+.navbutton:hover {
+    background-color: rgb(133, 155, 89);
 }
 
 /* input[type=file] { */
@@ -185,8 +186,6 @@ table.search tr:hover {
     min-height: 200px;
 }
 
-
-
 input[type=text],
 input[type=search],
 input[type=password],
@@ -194,6 +193,8 @@ input[type=file],
 input[type=date],
 select {
     background-color: #ade2af;
+    font-size: 16px;
+    height: 26px;
 }
 
 /* input[type=file], */
@@ -207,8 +208,13 @@ select {
 /* } */
 
 select {
-    min-width: 250px;
-    min-height: 40px;
+    min-width: 140px;
+   	height: 40px;
+    font-size: 16px;
+}
+
+option {
+	font-size: 16px;
 }
 
 textarea {

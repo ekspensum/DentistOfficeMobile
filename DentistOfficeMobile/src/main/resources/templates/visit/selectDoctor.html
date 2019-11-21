@@ -8,30 +8,29 @@
 </head>
 <body>
   <section layout:fragment="content" id="patientContent">
-    <h4 th:text="#{visit.header.selectDoctor}"></h4>
-    
-    <form id="visitSelectDoctor">
-		<table>
-			<tr th:each="doctor : ${allDoctorsList}" style="display: inline-block;">
-				<td>
-					<table class="doctorsPhoto">
-						<tr class="">
-							<td align="center" th:text="${doctor.firstName + '  ' + doctor.lastName}" ></td>
-						</tr>
-						<tr class="">
-							<td align="center" rowspan="2" >
-								<button type="submit" form="visitSelectDoctor" formmethod="POST" formaction="/visit/toReserve" name="doctorId" th:value="${doctor.id }" class="doctorsPhoto">
-									<img th:src="@{'data:image;base64,'+${doctor.base64Photo }}" class="doctorsPhoto" />
-								</button>
-							</td>
-						</tr>
-						<tr><td><br></td></tr>
-					</table>
-				</td>
-				<td width="20px"><br></td>
-				</tr>
-		</table>
-	</form>
+	    <h4 th:text="#{visit.header.selectDoctor}"></h4>
+	    <form id="visitSelectDoctor">
+			<table>
+				<tr th:each="doctor : ${allDoctorsList}" style="display: inline-block;">
+					<td>
+						<table class="doctorsPhoto">
+							<tr class="">
+								<td align="center" th:text="${doctor.firstName + '  ' + doctor.lastName}" ></td>
+							</tr>
+							<tr class="">
+								<td align="center" rowspan="2" >
+									<button type="submit" form="visitSelectDoctor" formmethod="POST" formaction="/visit/toReserve" name="doctorId" th:value="${doctor.id }" class="doctorsPhoto">
+										<img th:src="@{'data:image;base64,'+${doctor.base64Photo }}" class="doctorsPhoto" />
+									</button>
+								</td>
+							</tr>
+							<tr><td><br></td></tr>
+						</table>
+					</td>
+					<td width="20px"><br></td>
+					</tr>
+			</table>
+		</form>
     
 	 <section th:insert="patient/patientMenu.html" id="patientMenu"></section>
   </section>
