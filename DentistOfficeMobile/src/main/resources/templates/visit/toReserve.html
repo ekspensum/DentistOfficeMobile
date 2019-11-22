@@ -35,29 +35,35 @@
 			</select>
 			<br><br>
 
-			<table border="1" class="workingTime">			
+			<table border="1" class="workingTime">	
+					<tr>
+						<th th:text="#{visit.table.head.date}"></th>
+						<th th:text="#{visit.table.head.weekDay}"></th>
+						<th th:text="#{visit.table.head.time}"></th>
+					</tr>			
 					<tr th:each="map, iter : ${workingWeekFreeTimeMap}"  th:class="${iter.odd}? 'odd'">
-						<th th:text="${map.key}"></th>
+						<td th:text="${map.key}"></td>
 						<td th:text="${dayOfWeekPolish[workingWeekFreeTimeMap.keySet().toArray()[iter.index].getDayOfWeek().getValue()] }"></td>
-							<td th:if="${workingWeekFreeTimeMap.values().toArray()[iter.index].toString().length() == 2 }" th:text="#{home.agenda.noFreeTerms}"></td>
+							<td th:if="${workingWeekFreeTimeMap.values().toArray()[iter.index].toString().length() == 2 }" 
+									th:text="#{home.agenda.noFreeTerms}" id="tdNoFreeTime"></td>
 							<td th:if="${workingWeekFreeTimeMap.values().toArray()[iter.index].toString().length() > 2 }">
-								<table>
+								<table class="workingTime">
 									<tr th:each="time : ${map.value}">
 										<td><input type="text" th:value="${time.key}" readonly="readonly" class="inputTime" /></td>
-										<td><br></td>
-										<td><br></td>
 										<td><input type="checkbox" th:name="dateTime" th:value="${#strings.toString(map.key) + ';' + time.key}" class="checkbox" /></td>
 									</tr>
 								</table>				
 							</td>
 					</tr>			
 			</table>	
-			<table>
+			<br><br>
+			<table class="workingTime">
 				<tr>
-					<td align="right" width="820px"><input type="submit" th:value="#{button.visit.addVisit}" onclick="return validateSelectChbxVisitDate()" 
+					<td><input type="submit" th:value="#{button.visit.addVisit}" onclick="return validateSelectChbxVisitDate()" 
 										class="navbutton" /></td>
 				</tr>
 			</table>
+			<br><br>
 	</form>
     
 	 <section th:insert="patient/patientMenu.html" id="patientMenu"></section>

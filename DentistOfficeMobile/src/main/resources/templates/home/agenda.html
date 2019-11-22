@@ -9,7 +9,7 @@
 <body>
   <section layout:fragment="content">
     <h3 th:text="#{home.header.agenda.freeTerm}"></h3>
-	 <h4 th:text="#{home.header.agenda.selectDoctor}"></h4>
+	<h4 th:text="#{home.header.agenda.selectDoctor}"></h4>
 
 	<form id="homePageAgendaSelectDoctor">
 		<table>
@@ -42,19 +42,25 @@
 																											th:disabled="${disableRightArrow == 'YES' }" class="navbutton" 
 																											th:text="#{button.agenda.next7days}"></button>
 			<br><br>
-			<table border="1" class="workingTime">			
-					<tr th:each="map, iter : ${workingWeekFreeTimeMap}"  th:class="${iter.odd}? 'odd'">
-						<th th:text="${map.key}"></th>
+			<table border="1" class="workingTime">	
+				<tr>
+						<th th:text="#{visit.table.head.date}"></th>
+						<th th:text="#{visit.table.head.weekDay}"></th>
+						<th th:text="#{visit.table.head.time}"></th>
+				</tr>		
+				<tr th:each="map, iter : ${workingWeekFreeTimeMap}"  th:class="${iter.odd}? 'odd'">
+						<td th:text="${map.key}"></td>
 						<td th:text="${dayOfWeekPolish[workingWeekFreeTimeMap.keySet().toArray()[iter.index].getDayOfWeek().getValue()] }"></td>
-							<td th:if="${workingWeekFreeTimeMap.values().toArray()[iter.index].toString().length() == 2 }" th:text="#{home.agenda.noFreeTerms}"></td>
-							<td th:if="${workingWeekFreeTimeMap.values().toArray()[iter.index].toString().length() > 2 }">
-								<table>
-									<tr th:each="time : ${map.value}">
-										<td><input type="text" th:value="${time.key}" readonly="readonly" class="inputTime" /></td>
-									</tr>
-								</table>				
-							</td>
-					</tr>			
+						<td th:if="${workingWeekFreeTimeMap.values().toArray()[iter.index].toString().length() == 2 }" 
+								th:text="#{home.agenda.noFreeTerms}" id="tdNoFreeTime"></td>
+						<td th:if="${workingWeekFreeTimeMap.values().toArray()[iter.index].toString().length() > 2 }">
+							<table class="workingTime">
+								<tr th:each="time : ${map.value}">
+									<td><input type="text" th:value="${time.key}" readonly="readonly" class="inputTime" /></td>
+								</tr>
+							</table>				
+						</td>
+				</tr>			
 			</table>	
 		</div>
 	</form>

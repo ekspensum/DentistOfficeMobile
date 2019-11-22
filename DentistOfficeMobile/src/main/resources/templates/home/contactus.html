@@ -7,26 +7,24 @@
 	<title>Contact Us page</title>
 </head>
 <body>
-
 <section layout:fragment="content">
-
 <h3 th:text="#{home.header.contactUs}"></h3>
-<form method="POST" action="#" th:action="@{/contactus}" th:object="${contactUs}" id="contactForm" enctype="multipart/form-data" >
-	<table>
+<form method="POST" action="#" th:action="@{/contactus}" th:object="${contactUs}" enctype="multipart/form-data" >
+	<table class="contactUsTable">
 		<tr>
-			<td><input type="text" th:field="${contactUs.subject}" id="subject" th:placeholder="#{placeholder.contactus.subject}" style="width:250px" /></td>
+			<td><input type="text" th:field="${contactUs.subject}" th:placeholder="#{placeholder.contactus.subject}" class="contactUsTable"/></td>
 			<td><span th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></span></td>
 		</tr>
 		<tr>
-			<td><textarea id="message" th:field="${contactUs.message}" class="textareaDescription" th:placeholder="#{placeholder.contactus.message}"></textarea></td>
+			<td><textarea th:field="${contactUs.message}" th:placeholder="#{placeholder.contactus.message}" class="contactUsTable" rows="15"></textarea></td>
 			<td><span th:if="${#fields.hasErrors('message')}" th:errors="*{message}"></span></td>
 		</tr>
 		<tr>
-			<td><input type="text" th:field="${contactUs.replyMail}" id="replyMail" th:placeholder="#{placeholder.contactus.replyMail }" style="width:250px" /></td>
+			<td><input type="text" th:field="${contactUs.replyMail}" th:placeholder="#{placeholder.contactus.replyMail }" class="contactUsTable" /></td>
 			<td><span th:if="${#fields.hasErrors('replyMail')}" th:errors="*{replyMail}"></span></td>
 		</tr>
 		<tr>
-			<td><input type="file" name="attachment" class="custom-file-upload" /></td>
+			<td><input type="file" name="attachment" /></td>
 			<td><span th:if="${#fields.hasErrors('attachment')}" th:errors="*{attachment}"></span></td>
 		</tr>
 		<tr>

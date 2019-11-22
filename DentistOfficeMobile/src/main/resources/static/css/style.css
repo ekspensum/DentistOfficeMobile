@@ -1,6 +1,5 @@
 body {
     background-color: rgb(105, 126, 117);
-    /* background-image: url("../images/background.jpg"); */
     color: black;
 }
 
@@ -167,23 +166,8 @@ table.search tr:hover {
     background-color: rgb(133, 155, 89);
 }
 
-/* input[type=file] { */
-/* 	display: none; */
-/* } */
-
-/* .custom-file-upload { */
-/* 	height: 40px; */
-/* 	width: 140px; */
-/*     border: 1px solid #ccc; */
-/*     display: inline-block; */
-/*     padding: 6px 12px; */
-/*     cursor: pointer; */
-/*     width: 160px; */
-/* } */
-
-.textareaDescription {
-    min-width: 400px;
-    min-height: 200px;
+.contactUsTable {
+	width: 70%;
 }
 
 input[type=text],
@@ -196,16 +180,6 @@ select {
     font-size: 16px;
     height: 26px;
 }
-
-/* input[type=file], */
-/* input[type=search], */
-/* select { */
-/*     height: 26px; */
-/* } */
-
-/* input[type=date] { */
-/*     height: 20px; */
-/* } */
 
 select {
     min-width: 140px;
@@ -236,26 +210,32 @@ textarea {
   padding: 10px;	
 }
 
-/* table.workingTime { */
-/*     border-collapse: collapse; */
-/*     border-color: beige; */
-/*     width: 70%; */
-/* } */
+table.workingTime {
+    border-collapse: collapse;
+    border-color: beige;
+    width: 100%;
+}
 
-/* table.workingTime th { */
-/*     padding: 5px; */
-/*     height: 35px; */
-/*     text-align: left; */
-/*     border-color: beige; */
-/* } */
+table.workingTime th {
+    padding: 5px;
+    height: 35px;
+    text-align: center;
+    border-color: beige;
+}
 
-/* table.workingTime td { */
-/*     padding: 5px; */
-/*     width: 100px; */
-/*     height: 35px; */
-/*     text-align: center; */
-/*     border-color: beige; */
-/* } */
+table.workingTime td {
+    padding: 5px;
+    width: 100px;
+    height: 35px;
+    text-align: center;
+    border-color: beige;
+}
+
+#tdNoFreeTime {
+	color: blue; 
+	font-size: 16px; 
+	font-weight: bold;"
+}
 
 .workingTime input[type="checkbox"]:checked {
     box-shadow: 0 0 0 5px blue;
@@ -312,7 +292,7 @@ table.doctorsPhoto {
     border-collapse: collapse;
     background-color: rgb(132, 148, 131);
     width: 150px;
-    height: 150px;
+    height: 170px;
 }
 
 button.doctorsPhoto {

@@ -13,7 +13,7 @@
 		<table>
 			<tbody>
 				<tr>
-					<td rowspan="16"><img th:src="@{'data:image;base64,'+${patient.base64Photo }}" width="250px" /></td>
+					<td rowspan="17"><img th:src="@{'data:image;base64,'+${patient.base64Photo }}" width="250px" /></td>
 					<td th:text="#{patient.user.username}"></td>
 					<td><input type="text" th:field="${patient.user.username}"  /></td>
 					<td th:if="${#fields.hasErrors('user.username')}" th:errors="*{user.username}" class="msgError"></td>
@@ -90,8 +90,12 @@
 					<td th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}" class="msgError"></td>
 				</tr>
 				<tr>
-					<td></td><td><input type="submit" th:value="#{button.patient.saveEdit}" onclick="return checkCorrectPassword()" class="navbutton" /></td>
+					<td><br></td>
 				</tr>
+				<tr>
+					<td></td>
+					<td><input type="submit" th:value="#{button.patient.saveEdit}" onclick="return checkCorrectPassword()" class="navbutton" /></td>
+				</tr>				
 			</tbody>
 		</table>
 	</form>

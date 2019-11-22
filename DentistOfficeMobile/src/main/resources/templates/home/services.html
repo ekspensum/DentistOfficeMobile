@@ -8,9 +8,7 @@
 </head>
 <body>
 <section layout:fragment="content">
-
 	<h3 th:text="#{home.header.services}"></h3>
-	
 	<form name="servicesForm" method="POST" th:action="@{/services}">
 		<select th:name="categoryId">
 				<option th:each="category : ${treatmentCategoriesList}" 
