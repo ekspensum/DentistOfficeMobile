@@ -24,7 +24,7 @@ import pl.dentistoffice.mobile.service.UserService;
 public class PatientController {
 
 	@Autowired
-	private UserService userSrvice;
+	private UserService userService;
 	
 	@GetMapping(path = "/patient/patient")
 	public String patient() {
@@ -42,7 +42,7 @@ public class PatientController {
 								HttpSession httpSession, 
 								Model model) {
 		
-		boolean loggedPatient = userSrvice.loginPatient(username, password, httpSession, model);
+		boolean loggedPatient = userService.loginPatient(username, password, httpSession, model);
 		if(loggedPatient) {
 			return "redirect:/patient/patient";
 		}
@@ -60,9 +60,12 @@ public class PatientController {
 	}
 	
 	@GetMapping(path = "/patient/logout")
-	public String logout(HttpSession httpSession, Model model) {
-		model.addAttribute("patient", null);
-		model.addAttribute("token", null);
+	public String logout(@SessionAttribute("patient") Patient patient, @SessionAttribute("token") String token, HttpSession httpSession, Model model) {
+		if(patient != null && token != null) {
+			userService.logoutPatient(patient.getId(), token);			
+			model.addAttribute("patient", null);
+			model.addAttribute("token", null);
+		}
 		httpSession.invalidate();
 		return "/patient/logout";
 	}
@@ -84,7 +87,7 @@ public class PatientController {
 			patient.setPhoto(photo.getBytes());
 		}
 		if(!result.hasErrors()) {
-			String answer = userSrvice.registerPatient(patient);
+			String answer = userService.registerPatient(patient);
 			if(answer.equals("true")) {
 				model.addAttribute("success", "patient.success.register");
 				return "forward:/patient/success";				
@@ -123,7 +126,7 @@ public class PatientController {
 			patient.setPhoto(image);
 		}
 		if(!result.hasErrors()) {
-			String answer = userSrvice.editPatient(token, patient);
+			String answer = userService.editPatient(token, patient);
 			if(answer.equals("true")) {
 				model.addAttribute("success", "patient.success.editPatient");
 				model.addAttribute("patient", null);

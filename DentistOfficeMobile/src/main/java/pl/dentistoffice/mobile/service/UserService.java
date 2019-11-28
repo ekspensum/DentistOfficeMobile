@@ -40,6 +40,8 @@ public class UserService {
 	private String tokenForAddNewPatient;
 	@Value(value = "${timeoutForTokenForAddNewPatient}")
 	private String timeoutForTokenForAddNewPatient;
+	@Value(value = "${URL_LOGOUT}")
+	private String URL_LOGOUT;
 	
 	@Autowired
 	private Environment env;
@@ -69,6 +71,30 @@ public class UserService {
 			}
 	}
 
+	public void logoutPatient(int patientId, String token) {
+		HttpHeaders requestHeaders = new HttpHeaders();
+		String encodeToken = cipherService.encodeToken(token);
+		requestHeaders.add(HttpHeaders.AUTHORIZATION, encodeToken);
+		
+		MultiValueMap<String, String> patchParam = new LinkedMultiValueMap<String, String>();
+		patchParam.add("patientId", String.valueOf(patientId));
+		HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(patchParam, requestHeaders);
+		
+		ResponseEntity<Boolean> responseEntity = restTemplate.exchange(URL_LOGOUT, HttpMethod.POST, requestEntity, Boolean.class);
+		if(!responseEntity.getStatusCode().isError()) {
+			if(responseEntity.getBody()) {
+				logger.info("Correct logout from Rest Service.");
+			} else {
+				if(responseEntity.getHeaders().get(HttpHeaders.WARNING) != null) {
+					String warning = responseEntity.getHeaders().get(HttpHeaders.WARNING).get(0);
+					logger.error("ERROR MESSAGE FROM REST SERVICE: {}", warning);					
+				}
+			}			
+		} else {
+			throw new HttpClientErrorException(responseEntity.getStatusCode());			
+		}
+	}
+	
 	public List<Doctor> getAllDoctors() {
 		ResponseEntity<DoctorListWrapper> responseEntity = restTemplate.getForEntity(URL_DOCTORS, DoctorListWrapper.class);
 		if(!responseEntity.getStatusCode().isError()) {
