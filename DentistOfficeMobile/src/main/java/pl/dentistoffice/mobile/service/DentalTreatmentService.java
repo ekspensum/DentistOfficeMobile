@@ -54,22 +54,6 @@ public class DentalTreatmentService {
 		throw new HttpClientErrorException(responseEntity.getStatusCode());
 	}
 	
-//	public DentalTreatment getDentalTreatment(int id) {
-//		return treatmentRepository.readDentalTreatment(id);
-//	}
-//	
-//	public List<DentalTreatment> searchDentalTreatment(String text){
-//		List<DentalTreatment> searchedTreatments = searchsService.searchDentalTreatmentNameDescriptionByKeywordQuery(text);
-//		searchedTreatments.sort(new Comparator<DentalTreatment>() {
-//
-//			@Override
-//			public int compare(DentalTreatment o1, DentalTreatment o2) {
-//				return o1.getName().compareTo(o2.getName());
-//			}
-//		});
-//		return searchedTreatments;
-//	}
-	
 	public List<TreatmentCategory> getTreatmentCategoriesList(){
 		ResponseEntity<TreatmentListWrapper> responseEntity = restTemplate.getForEntity(URL_SERVICES, TreatmentListWrapper.class);
 		if(!responseEntity.getStatusCode().isError()) {
