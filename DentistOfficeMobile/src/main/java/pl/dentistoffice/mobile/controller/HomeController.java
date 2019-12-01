@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -144,10 +143,10 @@ public class HomeController {
 	}
 	
 	@PostMapping(path = "/contactus")
-	public String sendMessage(@Valid @ModelAttribute ContactUs contactUs, BindingResult result,
-							  @RequestParam("attachment") MultipartFile file, Model model,
-							  @RequestParam(name = "g-recaptcha-response") String reCaptchaResponse
-			  					) throws Exception  {
+	public String sendMessage(@Valid ContactUs contactUs, BindingResult result,
+											  @RequestParam("attachment") MultipartFile file, Model model,
+											  @RequestParam(name = "g-recaptcha-response") String reCaptchaResponse
+							  					) throws Exception  {
 		
 		String mailText = "<font color='blue' size='3'>" + contactUs.getMessage() + "<br><br><br>"
 						+ "Adres e-mail nadawcy: " + contactUs.getReplyMail() + "\n" + "</font><br><br>";
@@ -156,8 +155,8 @@ public class HomeController {
 		if (!result.hasErrors() && verifyReCaptcha) {
 			try {
 				sendEmail.sendEmail(env, env.getProperty("mailFrom"), // in this case mailTo == mailFrom
-						contactUs.getSubject(), mailText, contactUs.getReplyMail(), file.getBytes(),
-						file.getOriginalFilename());
+				contactUs.getSubject(), mailText, contactUs.getReplyMail(), file.getBytes(),
+				file.getOriginalFilename());
 				model.addAttribute("alert", "YES");
 			} catch (Exception e) {
 				e.printStackTrace();

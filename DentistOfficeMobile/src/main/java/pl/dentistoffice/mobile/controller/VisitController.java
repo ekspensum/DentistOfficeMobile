@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -39,7 +38,7 @@ public class VisitController {
 	private int dayStart = 0;
 	private int dayEnd = 0;
 	
-	@RequestMapping(path = "/visit/selectDoctor")
+	@GetMapping(path = "/visit/selectDoctor")
 	public String visitSelectDoctorByPatient(Model model) {
 		List<Doctor> allDoctorsList = userService.getAllDoctors();
 		model.addAttribute("allDoctorsList", allDoctorsList);
