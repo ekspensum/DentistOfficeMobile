@@ -114,6 +114,7 @@ class HomeControllerTest {
 		List<Doctor> allDoctors = userService.getAllDoctors();
 		mockMvc.perform(MockMvcRequestBuilders.get("/agenda"))
 																				.andExpect(MockMvcResultMatchers.status().isOk())
+																				.andExpect(MockMvcResultMatchers.view().name("/home/agenda"))
 																				.andExpect(MockMvcResultMatchers.model().attribute("allDoctors", allDoctors));
 	}
 
