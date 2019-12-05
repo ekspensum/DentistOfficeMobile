@@ -5,6 +5,7 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,8 @@ import pl.dentistoffice.mobile.config.DentistOfficeMobileApplication;
 import pl.dentistoffice.mobile.model.Doctor;
 import pl.dentistoffice.mobile.model.Patient;
 import pl.dentistoffice.mobile.model.User;
+import pl.dentistoffice.mobile.model.Visit;
+import pl.dentistoffice.mobile.model.VisitStatus;
 import pl.dentistoffice.mobile.service.UserService;
 
 @SpringBootTest(classes = DentistOfficeMobileApplication.class)
@@ -209,7 +212,7 @@ class DentistOfficeMobileIntegrationTest {
 		String doctorId = "1";
 		String weekResultDriver = null;
 		Integer dayStart = 0;	
-		Map<String, Object> model = mockMvc.perform(MockMvcRequestBuilders.post("/visit/toReserve")
+		Map<String, Object> modelForNewVisit = mockMvc.perform(MockMvcRequestBuilders.post("/visit/toReserve")
 																		.param("doctorId", doctorId)
 																		.param("weekResultDriver", weekResultDriver)
 																		.sessionAttr("dayStart", dayStart)
@@ -221,8 +224,8 @@ class DentistOfficeMobileIntegrationTest {
 																		.andExpect(MockMvcResultMatchers.model().attribute("disableLeftArrow", "YES"))
 																		.andReturn().getModelAndView().getModel();
 		@SuppressWarnings("unchecked")
-		Map<LocalDate, Map<LocalTime, Boolean>> workingWeekFreeTimeMap = (Map<LocalDate, Map<LocalTime, Boolean>>) model.get("workingWeekFreeTimeMap");
-		Doctor doctor = (Doctor) model.get("doctor");
+		Map<LocalDate, Map<LocalTime, Boolean>> workingWeekFreeTimeMap = (Map<LocalDate, Map<LocalTime, Boolean>>) modelForNewVisit.get("workingWeekFreeTimeMap");
+		Doctor doctor = (Doctor) modelForNewVisit.get("doctor");
 		
 		String [] dateTime = new String[1];
 		Map<LocalTime, Boolean> mapFreeTime;
@@ -244,6 +247,48 @@ class DentistOfficeMobileIntegrationTest {
 						.param("treatment2", "2")
 						.param("treatment3", "3")
 						.sessionAttr("doctor", doctor)
+						.sessionAttr("token", decodeToken)
+						.sessionAttr("patient", patient))
+						.andExpect(MockMvcResultMatchers.status().isOk())
+						.andExpect(MockMvcResultMatchers.view().name("forward:/patient/success"));
+		
+//		checking controller action and getting model for delete visit
+		Map<String, Object> modelForDeleteVisit = mockMvc.perform(MockMvcRequestBuilders.get("/visit/myVisits")																		
+																								.sessionAttr("patient", patient)
+																								.sessionAttr("token", decodeToken))
+																								.andExpect(MockMvcResultMatchers.status().isOk())
+																								.andExpect(MockMvcResultMatchers.view().name("/visit/myVisits"))
+																								.andReturn().getModelAndView().getModel();
+		@SuppressWarnings("unchecked")
+		List<Visit> allVisitsList = (List<Visit>) modelForDeleteVisit.get("allVisitsList");
+		@SuppressWarnings("unchecked")
+		List<VisitStatus> visitStatusList = (List<VisitStatus>) modelForDeleteVisit.get("visitStatusList");
+		
+		@SuppressWarnings("unchecked")
+		List<Visit> visitsListByStatus = (List<Visit>) mockMvc.perform(MockMvcRequestBuilders.post("/visit/myVisits")
+																								.param("statusId", "1")
+																								.sessionAttr("allVisitsList", allVisitsList)
+																								.sessionAttr("visitStatusList", visitStatusList)
+																								.sessionAttr("token", decodeToken)
+																								.sessionAttr("patient", patient))
+																								.andExpect(MockMvcResultMatchers.status().isOk())
+																								.andExpect(MockMvcResultMatchers.view().name("/visit/myVisits"))
+																								.andReturn().getModelAndView().getModel().get("visitsListByStatus");
+		
+//		find visit to delete
+		String[] splitedDateAndTimeArray = dateTime[0].split(";");
+		LocalDateTime visitDateTimeToDelete = LocalDateTime.of(LocalDate.parse(splitedDateAndTimeArray[0]), LocalTime.parse(splitedDateAndTimeArray[1]));
+		int visitIdToDelete = 0;
+		for(int i=0; i<visitsListByStatus.size(); i++) {
+			if(visitsListByStatus.get(i).getVisitDateTime().equals(visitDateTimeToDelete)) {
+				visitIdToDelete = visitsListByStatus.get(i).getId();
+				break;
+			}
+		}
+		
+//		delete visit of found id
+		mockMvc.perform(MockMvcRequestBuilders.post("/visit/deleteVisit")
+						.param("visitId", String.valueOf(visitIdToDelete))
 						.sessionAttr("token", decodeToken)
 						.sessionAttr("patient", patient))
 						.andExpect(MockMvcResultMatchers.status().isOk())
