@@ -4,9 +4,11 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.junit.jupiter.api.Order;
@@ -36,8 +38,6 @@ class DentistOfficeMobileIntegrationTest {
 	private MockMvc mockMvc;
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private HttpServletRequest request;
 	@Autowired
 	private HttpSession httpSession;
 	
@@ -109,11 +109,8 @@ class DentistOfficeMobileIntegrationTest {
 		String decodeToken = (String) model.getAttribute("token");
 		Patient patient = (Patient) model.getAttribute("patient");
 		
-//		add patient and token to session for security filter
-		request.getSession().setAttribute("patient", patient);
-		request.getSession().setAttribute("token", decodeToken);
-
 //		change patient data:
+//		- add patient and token to session for security filter
 //		- get method for patient edit (for assertion)
 		mockMvc.perform(MockMvcRequestBuilders.get("/patient/edit")
 						.sessionAttr("patient", patient)
@@ -121,7 +118,7 @@ class DentistOfficeMobileIntegrationTest {
 						.andExpect(MockMvcResultMatchers.status().isOk())
 						.andExpect(MockMvcResultMatchers.view().name("/patient/edit"));
 		
-//		- post method for patient edit
+//		- post method for patient edit and add patient and token to session for security filter
 		patient.setLastName("lastNameTest");
 		User user = patient.getUser();
 		user.setPasswordField("Pacjent11");
@@ -145,6 +142,7 @@ class DentistOfficeMobileIntegrationTest {
 		
 //		to bring back patient data
 //		- patient should be login again because after edit data, patient was logout
+//		- add patient and token to session for security filter
 		userService.loginPatient("pacjent1", "Pacjent11", httpSession, model);
 		decodeToken = (String) model.getAttribute("token");
 		patient = (Patient) model.getAttribute("patient");
@@ -168,5 +166,87 @@ class DentistOfficeMobileIntegrationTest {
 																				.param("password", "Pacjent11"))
 																				.andReturn().getRequest().getSession().getAttribute("patient");
 		assertEquals(patientExpected.getLastName(), "Warszawska");
+	}
+	
+	@Test
+	@Order(4)
+	void logoutPatientTest() throws Exception {
+		Model model = new ConcurrentModel();
+		userService.loginPatient("pacjent1", "Pacjent11", httpSession, model);
+		String decodeToken = (String) model.getAttribute("token");
+		Patient patient = (Patient) model.getAttribute("patient");
+
+//		add patient and token to session for security filter
+		mockMvc.perform(MockMvcRequestBuilders.get("/patient/logout")
+						.sessionAttr("patient", patient)
+						.sessionAttr("token", decodeToken))
+						.andExpect(MockMvcResultMatchers.status().isOk())
+						.andExpect(MockMvcResultMatchers.view().name("/patient/logout"));
+	}
+	
+	@Test
+	@Order(5)
+	void addNewVisitAndDeleteThem() throws Exception {
+//		getting origin patient data:
+		Model modelForSession = new ConcurrentModel();
+		userService.loginPatient("pacjent1", "Pacjent11", httpSession, modelForSession);
+		String decodeToken = (String) modelForSession.getAttribute("token");
+		Patient patient = (Patient) modelForSession.getAttribute("patient");
+		
+//		checking controller action and getting doctor list 
+//		add patient and token to session for security filter
+		@SuppressWarnings("unchecked")
+		List<Doctor> allDoctorsList = (List<Doctor>) mockMvc.perform(MockMvcRequestBuilders
+																							.get("/visit/selectDoctor")
+																							.sessionAttr("patient", patient)
+																							.sessionAttr("token", decodeToken))
+																							.andExpect(MockMvcResultMatchers.status().isOk())
+																							.andExpect(MockMvcResultMatchers.view().name("/visit/selectDoctor"))
+																							.andReturn().getModelAndView().getModel().get("allDoctorsList");
+		
+//		prepare to add new visit and checking controller action as well getting model
+//		add patient and token to session for security filter
+		String doctorId = "1";
+		String weekResultDriver = null;
+		Integer dayStart = 0;	
+		Map<String, Object> model = mockMvc.perform(MockMvcRequestBuilders.post("/visit/toReserve")
+																		.param("doctorId", doctorId)
+																		.param("weekResultDriver", weekResultDriver)
+																		.sessionAttr("dayStart", dayStart)
+																		.sessionAttr("patient", patient)
+																		.sessionAttr("token", decodeToken)
+																		.sessionAttr("allDoctorsList", allDoctorsList))
+																		.andExpect(MockMvcResultMatchers.status().isOk())
+																		.andExpect(MockMvcResultMatchers.view().name("/visit/toReserve"))
+																		.andExpect(MockMvcResultMatchers.model().attribute("disableLeftArrow", "YES"))
+																		.andReturn().getModelAndView().getModel();
+		@SuppressWarnings("unchecked")
+		Map<LocalDate, Map<LocalTime, Boolean>> workingWeekFreeTimeMap = (Map<LocalDate, Map<LocalTime, Boolean>>) model.get("workingWeekFreeTimeMap");
+		Doctor doctor = (Doctor) model.get("doctor");
+		
+		String [] dateTime = new String[1];
+		Map<LocalTime, Boolean> mapFreeTime;
+		for(int i=0; i<workingWeekFreeTimeMap.size(); i++) {
+			mapFreeTime = workingWeekFreeTimeMap.get(LocalDate.now().plusDays(i));
+			if(!mapFreeTime.isEmpty()) {
+				Object [] array = mapFreeTime.keySet().toArray();
+				dateTime[0] = LocalDate.now().plusDays(i).toString()+";"+array[0].toString();
+				System.out.println(dateTime[0]);
+				break;
+			}
+		}
+		
+//		reservation new visit
+//		add patient and token to session for security filter
+		mockMvc.perform(MockMvcRequestBuilders.post("/visit/reservation")
+						.param("dateTime", dateTime)
+						.param("treatment1", "1")
+						.param("treatment2", "2")
+						.param("treatment3", "3")
+						.sessionAttr("doctor", doctor)
+						.sessionAttr("token", decodeToken)
+						.sessionAttr("patient", patient))
+						.andExpect(MockMvcResultMatchers.status().isOk())
+						.andExpect(MockMvcResultMatchers.view().name("forward:/patient/success"));
 	}
 }
