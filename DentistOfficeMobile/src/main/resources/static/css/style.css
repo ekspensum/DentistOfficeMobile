@@ -1,5 +1,5 @@
 body {
-/*     background-color: rgb(105, 126, 117); */
+    background-color: rgb(105, 126, 117);
 	background-image: url("../images/nasty_fabric_@2X.png");
     color: black;
 }
@@ -42,10 +42,10 @@ table.search tr:hover {
     position: absolute;
     right: 30px;
     top: 10px;
-    width: 140px;
-    height: 40px;
+    width: 150px;
+    height: 50px;
     background-color: beige;
-    font: bold 14px Arial;
+    font: bold 16px Arial;
 }
 
 #login:hover {
@@ -56,10 +56,10 @@ table.search tr:hover {
     position: absolute;
     right: 30px;
     top: 10px;
-    width: 140px;
-    height: 40px;
+    width: 150px;
+    height: 50px;
     background-color: beige;
-    font: bold 14px Arial;
+    font: bold 16px Arial;
 }
 
 #logout:hover {
@@ -70,7 +70,7 @@ table.search tr:hover {
 	position: absolute;
     right: 30px;
     top: 80px;
-    font: 14px Arial;
+    font: 16px Arial;
 }
 
 #header {
@@ -146,7 +146,7 @@ table.search tr:hover {
 .sidemenuButton {
     font: bold 12px Arial;
     width: 170px;
-    height: 30px;
+    height: 50px;
     border-radius: 12px;
     background-color: #bbe7bd;
 }
@@ -157,8 +157,8 @@ table.search tr:hover {
 
 .navbutton {
     font: bold 14px Arial;
-    min-width: 130px;
-    height: 40px;
+    min-width: 150px;
+    height: 50px;
     border-radius: 12px;
     background-color: #bbe7bd;
 }
@@ -178,18 +178,18 @@ input[type=file],
 input[type=date],
 select {
     background-color: #ade2af;
-    font-size: 16px;
-    height: 26px;
+    font-size: 18px;
+    height: 28px;
 }
 
 select {
-    min-width: 140px;
-   	height: 40px;
-    font-size: 16px;
+    min-width: 150px;
+   	height: 50px;
+    font-size: 18px;
 }
 
 option {
-	font-size: 16px;
+	font-size: 18px;
 }
 
 textarea {
