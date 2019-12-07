@@ -1,5 +1,6 @@
 body {
-    background-color: rgb(105, 126, 117);
+/*     background-color: rgb(105, 126, 117); */
+	background-image: url("../images/nasty_fabric_@2X.png");
     color: black;
 }
 
