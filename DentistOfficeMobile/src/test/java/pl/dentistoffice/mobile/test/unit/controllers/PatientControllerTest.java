@@ -24,6 +24,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import pl.dentistoffice.mobile.controller.PatientController;
 import pl.dentistoffice.mobile.model.Patient;
+import pl.dentistoffice.mobile.service.ReCaptchaService;
 import pl.dentistoffice.mobile.service.UserService;
 
 class PatientControllerTest {
@@ -42,6 +43,8 @@ class PatientControllerTest {
 	private Model model;
 	@Mock
 	private BindingResult result;
+	@Mock
+	private ReCaptchaService reCaptchaService;
 	
 
 	@BeforeEach
@@ -129,20 +132,22 @@ class PatientControllerTest {
 		
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/patient/register")
 						.file("photo", photo.getBytes())
-						.flashAttr("patient", patient))
+						.flashAttr("patient", patient)
+						.param("g-recaptcha-response", "reCaptchaResponse"))
 						.andExpect(MockMvcResultMatchers.status().isOk())
 						.andExpect(MockMvcResultMatchers.view().name("/patient/register"));
 		
 		when(userService.registerPatient(patient)).thenReturn("true");
-		String answerActual = patientController.registration(patient, result, model, photo);
+		when(reCaptchaService.verify("reCaptchaResponse")).thenReturn(true);
+		String answerActual = patientController.registration(patient, result, model, photo, "reCaptchaResponse");
 		assertEquals("forward:/patient/success", answerActual);
 		
 		when(userService.registerPatient(patient)).thenReturn("NotDistinctLogin");
-		answerActual = patientController.registration(patient, result, model, photo);
+		answerActual = patientController.registration(patient, result, model, photo, "reCaptchaResponse");
 		assertEquals("forward:/patient/defeat", answerActual);
 		
 		when(userService.registerPatient(patient)).thenReturn("Timeout");
-		answerActual = patientController.registration(patient, result, model, photo);
+		answerActual = patientController.registration(patient, result, model, photo, "reCaptchaResponse");
 		assertEquals("forward:/patient/defeat", answerActual);
 	}
 

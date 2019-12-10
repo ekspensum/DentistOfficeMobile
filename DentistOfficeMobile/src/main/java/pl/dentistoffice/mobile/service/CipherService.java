@@ -25,10 +25,10 @@ public class CipherService {
 	private String encryptionKey;
 
 	public CipherService(Environment env) {
-		this.encryptionKey = env.getProperty("encryptionKey");
+//		this.encryptionKey = env.getProperty("encryptionKey");
 		
 //		for Heroku cloud
-//		this.encryptionKey = System.getenv("ENCRYPTION_KEY");
+		this.encryptionKey = System.getenv("ENCRYPTION_KEY");
 	}
 
 	public String encodeToken(String token) {

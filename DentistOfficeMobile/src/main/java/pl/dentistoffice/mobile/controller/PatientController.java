@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import pl.dentistoffice.mobile.model.Patient;
+import pl.dentistoffice.mobile.service.ReCaptchaService;
 import pl.dentistoffice.mobile.service.UserService;
 
 @Controller
@@ -25,6 +26,8 @@ public class PatientController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ReCaptchaService reCaptchaService;
 	
 	@GetMapping(path = "/patient/patient")
 	public String patient() {
@@ -80,13 +83,15 @@ public class PatientController {
 	public String registration(@Valid Patient patient, 
 											BindingResult result, 
 											Model model,
-											@RequestParam("photo") MultipartFile photo 
+											@RequestParam("photo") MultipartFile photo,
+											@RequestParam(name = "g-recaptcha-response") String reCaptchaResponse 
 											) throws IOException {
 
+		boolean verifyReCaptcha = reCaptchaService.verify(reCaptchaResponse);
 		if(photo != null) {
 			patient.setPhoto(photo.getBytes());
 		}
-		if(!result.hasErrors()) {
+		if(!result.hasErrors() && verifyReCaptcha) {
 			String answer = userService.registerPatient(patient);
 			if(answer.equals("true")) {
 				model.addAttribute("success", "patient.success.register");
@@ -100,6 +105,10 @@ public class PatientController {
 					model.addAttribute("defeat", "patient.defeat.register");
 				}
 				return "forward:/patient/defeat";
+			}
+		} else {
+			if (!verifyReCaptcha) {
+				model.addAttribute("reCaptchaError", "reCaptchaError");
 			}
 		}
 		return "/patient/register";
