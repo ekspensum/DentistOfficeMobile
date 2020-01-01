@@ -12,10 +12,10 @@
 	<p><span th:text="#{home.header.agenda.selectedDoctor }" ></span><b  th:text="${doctor.firstName + '  ' + doctor.lastName}"></b></p>
 	
 	<form name="selectVisitDateForm" th:action="@{/visit/reservation}" method="POST">
-			<button type="submit" name="weekResultDriver" formmethod="POST" formaction="/visit/toReserve" value="stepLeft"
+			<button type="submit" name="weekResultDriver" formmethod="POST" th:formaction="@{/visit/toReserve}" value="stepLeft"
 			 																								th:disabled="${disableLeftArrow == 'YES'}" class="navbutton"
 			 																								th:text="#{button.agenda.previous7days}" ></button>
-			<button type="submit" name="weekResultDriver" formmethod="POST" formaction="/visit/toReserve" value="stepRight" 
+			<button type="submit" name="weekResultDriver" formmethod="POST" th:formaction="@{/visit/toReserve}" value="stepRight" 
 																											th:disabled="${disableRightArrow == 'YES' }" class="navbutton" 
 																											th:text="#{button.agenda.next7days}"></button>
 			<br><br>

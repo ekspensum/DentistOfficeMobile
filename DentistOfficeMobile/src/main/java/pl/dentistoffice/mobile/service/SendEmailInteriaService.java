@@ -58,12 +58,12 @@ public class SendEmailInteriaService implements SendEmail {
 		JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
 		javaMailSender.setHost(env.getProperty("mail.smtp.host"));
 		javaMailSender.setPort(Integer.valueOf(env.getProperty("mail.smtp.port")));
-//		javaMailSender.setUsername(env.getProperty("mail_user"));
-//		javaMailSender.setPassword(env.getProperty("mail_password"));
+		javaMailSender.setUsername(env.getProperty("mail_user"));
+		javaMailSender.setPassword(env.getProperty("mail_password"));
 		
 //		for Heroku cloud
-		javaMailSender.setUsername(System.getenv("INTERIA_MAIL_ID"));
-		javaMailSender.setPassword(System.getenv("INTERIA_MAIL_PASSWORD"));
+//		javaMailSender.setUsername(System.getenv("INTERIA_MAIL_ID"));
+//		javaMailSender.setPassword(System.getenv("INTERIA_MAIL_PASSWORD"));
 
 		Properties javaMailProperties = new Properties();
 		javaMailProperties.put("mail.smtp.starttls.enable", env.getProperty("mail.smtp.starttls.enable"));

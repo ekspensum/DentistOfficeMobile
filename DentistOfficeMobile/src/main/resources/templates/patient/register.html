@@ -88,7 +88,10 @@
 					</tr>
 					<tr>
 						<td th:text="#{patient.reCapcha}"></td>
-						<td><div class="g-recaptcha" data-sitekey="6Lfv-cEUAAAAAMONPFHQpoR5kjvzQCVySQDnIZzy"></div></td>
+						<!-- Heroku -->
+						<!-- <td><div class="g-recaptcha" data-sitekey="6Lfv-cEUAAAAAMONPFHQpoR5kjvzQCVySQDnIZzy"></div></td> -->
+						<!-- Nazwa.pl -->
+						<td><div class="g-recaptcha" data-sitekey="6LeiecsUAAAAAHR5QgJYzhQsMsQKdzTQCQv5wV4w"></div></td>
 						<td class="msgError" th:text="#{reCaptchaError }" th:unless="${reCaptchaError == null}"></td>
 					</tr>
 					<tr>

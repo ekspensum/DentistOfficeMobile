@@ -28,6 +28,9 @@
 			<td><span th:if="${#fields.hasErrors('attachment')}" th:errors="*{attachment}"></span></td>
 		</tr>
 		<tr>
+			<!-- Heroku -->
+			<!-- <td><span class="g-recaptcha" data-sitekey="6Lfv-cEUAAAAAMONPFHQpoR5kjvzQCVySQDnIZzy"></span></td> -->
+			<!-- Nazwa.pl -->
 			<td><span class="g-recaptcha" data-sitekey="6Lfv-cEUAAAAAMONPFHQpoR5kjvzQCVySQDnIZzy"></span></td>
 			<td class="msgError" th:text="#{reCaptchaError }" th:unless="${reCaptchaError == null}"></td>
 		</tr>
