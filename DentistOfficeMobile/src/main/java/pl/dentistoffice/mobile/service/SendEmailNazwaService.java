@@ -13,8 +13,8 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 @Service
-//@Primary
-public class SendEmailInteriaService implements SendEmail {
+@Primary
+public class SendEmailNazwaService implements SendEmail {
 
 	@Override
 	public void sendEmail(Environment env, String mailTo, String mailSubject, String mailText, String replyMail, byte[] attachment, String fileName) {
@@ -57,17 +57,9 @@ public class SendEmailInteriaService implements SendEmail {
 	private JavaMailSenderImpl configureEmail(Environment env) {
 		JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
 		javaMailSender.setHost(env.getProperty("mail.smtp.host"));
-		javaMailSender.setPort(Integer.valueOf(env.getProperty("mail.smtp.port")));
 		javaMailSender.setUsername(env.getProperty("mail_user"));
-		javaMailSender.setPassword(env.getProperty("mail_password"));
-		
-//		for Heroku cloud
-//		javaMailSender.setUsername(System.getenv("INTERIA_MAIL_ID"));
-//		javaMailSender.setPassword(System.getenv("INTERIA_MAIL_PASSWORD"));
 
 		Properties javaMailProperties = new Properties();
-		javaMailProperties.put("mail.smtp.starttls.enable", env.getProperty("mail.smtp.starttls.enable"));
-		javaMailProperties.put("mail.smtp.auth", env.getProperty("mail.smtp.auth"));
 		javaMailProperties.put("mail.transport.protocol", env.getProperty("mail.transport.protocol"));
 //		javaMailProperties.put("mail.debug", env.getProperty("mail.debug"));
 

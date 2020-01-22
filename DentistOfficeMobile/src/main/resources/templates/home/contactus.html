@@ -28,9 +28,6 @@
 			<td><span th:if="${#fields.hasErrors('attachment')}" th:errors="*{attachment}"></span></td>
 		</tr>
 		<tr>
-			<!-- Heroku -->
-			<!-- <td><span class="g-recaptcha" data-sitekey="6Lfv-cEUAAAAAMONPFHQpoR5kjvzQCVySQDnIZzy"></span></td> -->
-			<!-- Nazwa.pl -->
 			<td><span class="g-recaptcha" data-sitekey="6LeiecsUAAAAAHR5QgJYzhQsMsQKdzTQCQv5wV4w"></span></td>
 			<td class="msgError" th:text="#{reCaptchaError }" th:unless="${reCaptchaError == null}"></td>
 		</tr>
@@ -40,12 +37,14 @@
 	</table>
 </form>
 	<div th:if="${alert == 'YES'}">
-		<script>
-			sentEmailConfirm();
+		<script th:inline="javascript">
+			sentEmailConfirm(/*[[#{message.sendEmail}]]*/);
 		</script>
 	</div>
 	<div th:if="${alert == 'NO' }">
-		<script>alert("Nie udało się wysłać listu!");</script>
+		<script th:inline="javascript">
+			alert(/*[[#{message.NoSendEmail}]]*/);
+		</script>
 	</div>
 
 </section>

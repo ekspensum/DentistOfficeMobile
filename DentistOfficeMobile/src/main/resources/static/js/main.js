@@ -2,8 +2,8 @@
  * 
  */
 
-function sentEmailConfirm() {
-    alert("List został wysłany!");
+function sentEmailConfirm(text) {
+    alert(text);
     document.getElementById("subject").value = "";
     document.getElementById("message").value = "";
     document.getElementById("replyMail").value = "";
